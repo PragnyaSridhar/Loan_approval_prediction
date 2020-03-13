@@ -1,7 +1,7 @@
 # Loan Approval Prediction
 ## Webtech2 Project
 
-###Frameworks:
+### Frameworks:
 Backend: Flask
 DB: sqlite3
 Frontend: React
