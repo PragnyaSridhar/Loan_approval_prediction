@@ -2,7 +2,7 @@
 ## Webtech2 Project
 
 ### Frameworks:
-Backend: Flask
-DB: sqlite3
-Frontend: React
+<div><b>Backend</b>: Flask</div>
+<div><b>DB</b>: sqlite3</div>
+<div><b>Frontend</b>: React</div>
 
