@@ -5,6 +5,10 @@ import os
 import requests
 import json
 import ast
+import pandas as pd
+import numpy as np
+from dataFn import *
+from sklearn.svm import SVC
 
 
 # apis required
@@ -18,9 +22,25 @@ import ast
 
 
 app = Flask(__name__)
+
+df = fix_df()
+(X_train,Y_train,X_test,Y_test)=split_df(df)
 db='loan.db'
-flag=os.system("find . -name '"+db+"'")
-if(flag==0):
+model = SVC(kernel='rbf')
+
+
+
+@app.before_first_request
+def setup():
+    global X_train
+    global Y_train
+    global db
+    global model
+
+    try:
+        os.system("rm "+db)
+    except:
+        pass
     mydb = sqlite3.connect(db)
 
     #create tables
@@ -31,7 +51,8 @@ if(flag==0):
     #populate table with initial dataset
     x = requests.post("http://localhost:5000/db/reset")
 
-# train model
+    # train model
+    model.fit(X_train, Y_train)
 
 @app.route("/user/add",methods=["PUT"])
 def addUser():
@@ -120,10 +141,11 @@ def login():
     else:
         return(jsonify({}),200)
 
-
+# ----------------- tested
 
 @app.route("/loan/predict",methods=["POST"])
 def predict():
+    global model
     gender = request.get_json()["gender"]
     dependents = request.get_json()["dependents"]
     education = request.get_json()["education"]
@@ -137,8 +159,9 @@ def predict():
 
     data = [[gender,dependents,education,selfEmployed,appInc,cappInc,loanAmt,loanTerm,credHist,propAr]]
 
-    # res = model.predict(data)
-    # return (res,200)
+    res = model.predict(data)
+    return (res[0],200)
+    
 
 @app.route("/loan/query",methods=["POST"])
 def query():
@@ -263,7 +286,7 @@ def graph():
     # I will try on tableau
     pass
 
-@app.route("/api/v1/db/write", methods=["POST"])
+@app.route("/db/write", methods=["POST"])
 def insert():
     mydb = sqlite3.connect(db)
     op = request.get_json()["operation"]
@@ -346,7 +369,43 @@ def read():
 
 @app.route("/db/reset",methods=["POST"])
 def resetDB():
-    pass
+    global db
+    mydb = sqlite3.connect(db)
+
+    #create tables
+    # mydb.execute("CREATE TABLE users (uname VARCHAR(255),pswd VARCHAR(40))")
+    # mydb.execute("CREATE TABLE loans (Loan_ID VARCHAR(8),Gender VARCHAR(6),Married BOOLEAN,Dependents INTEGER,Education BOOLEAN,Self_Employed BOOLEAN,ApplicantIncome INTEGER, CoapplicantIncome INTEGER,LoanAmount INTEGER,Loan_Amount_Term INTEGER,Credit_History BOOLEAN,Property_Area VARCHAR(20),Loan_Status BOOLEAN)")
+    # mydb.commit()
+    query = 'SELECT name FROM sqlite_master WHERE type="table"'
+    mydb.execute(query)
+    s = mydb.fetchall()
+    for table in s:
+        # print(table[0])
+        query = "DELETE FROM "+table[0]
+        mydb.execute(query)
+        mydb.commit()
+
+    global X_train
+    global Y_train
+
+    for index,row in X_train.iterrows():
+        query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
+            'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
+                 'Property_Area') VALUES ("
+        
+        for i in range(len(row)):
+            if(i!=0):
+                query+=','
+            query+= str(row[i])
+        query+=")"
+
+        mydb.execute(query)
+        mydb.coomit()
+
+    for val in Y_train.values:
+        query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
+        mydb.execute(query)
+        mydb.commit()
 
 if __name__=='__main__':
     app.debug=True
