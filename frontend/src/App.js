@@ -1,46 +1,48 @@
 import React from 'react';
 import './App.css';
 
-import Form from './Form.js'
+import Login from './Login.js'
+import BigForm from './BigForm.js'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {logged_in:false};
-    this.changeState = this.changeState.bind(this);
+    this.state = {
+      logged_in: false,
+      bigFormSubmitted: false
     };
-  changeState() {
-    console.log("logging you in...");
-    this.setState({
-      logged_in: true
-    });
+    this.login = this.login.bind(this);
+    this.bigFormSubmit = this.bigFormSubmit.bind(this);
+  };
+  login() {
+    this.setState({logged_in: true});
+  }
+  bigFormSubmit() {
+    this.setState({bigFormSubmitted: true});
   }
   render() {
-    var fl;
     if (this.state.logged_in === false) {
-      fl = [
-        {label:"User-id",type:"text",name:"User-id"},{label:"Password",type:"text",name:"Password"}
-      ]
+      return (
+        <div className="App">
+          <header>
+            <p>Header</p>
+          </header>
+          <Login changeState={this.login} />
+        </div>
+      )
+    } else if (this.state.bigFormSubmitted === false) {
+      return (
+        <div className="App">
+          <header>
+            <p>Header</p>
+          </header>
+          <BigForm changeState={this.bigFormSubmit} />
+        </div>
+      )
+    } else {
+      return (
+        <p>BLABLABLA</p>
+      )
     }
-    else {
-      fl = [{
-        label: "gender",
-        type: "select",
-        options:["Male","Female"],
-        name: "gender"
-      }, {
-        label: "customer-name",
-        type: "text",
-        name: "customer-name"
-      }]
-    }
-    return (
-    <div className="App">
-      <header>
-        <p>Hello!</p>
-      </header>
-      < Form action = "." fieldlist = { fl } myprop={ ()=>{this.changeState();}} />
-    </div>
-  )
   }
 }
 
