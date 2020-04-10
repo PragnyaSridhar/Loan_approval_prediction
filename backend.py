@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 from dataFn import *
 from sklearn.svm import SVC
-from flask_cors import CORS
+
 
 # apis required
 #   1   - add user(signup)
@@ -22,39 +22,53 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-# CORS(app)
 
 df = fix_df()
 (X_train,Y_train,X_test,Y_test)=split_df(df)
 db='loan.db'
 model = SVC(kernel='rbf')
 
+print("setup")
+# global X_train
+# global Y_train
+# global db
+# global model
 
+try:
+    os.system("rm "+db)
+except:
+    pass
+mydb = sqlite3.connect(db)
 
-@app.before_first_request
-def setup():
-    print("setup")
-    global X_train
-    global Y_train
-    global db
-    global model
+#create tables
+mydb.execute("CREATE TABLE users (uname VARCHAR(255),pswd VARCHAR(40))")
+mydb.execute("CREATE TABLE loans (Loan_ID VARCHAR(8),Gender VARCHAR(6),Married BOOLEAN,Dependents INTEGER,Education BOOLEAN,Self_Employed BOOLEAN,ApplicantIncome INTEGER, CoapplicantIncome INTEGER,LoanAmount INTEGER,Loan_Amount_Term INTEGER,Credit_History BOOLEAN,Property_Area VARCHAR(20),Loan_Status BOOLEAN)")
+mydb.commit()
 
-    try:
-        os.system("rm "+db)
-    except:
-        pass
-    mydb = sqlite3.connect(db)
+#populate table with initial dataset
+for index,row in X_train.iterrows():
+    query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
+        'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
+                'Property_Area') VALUES ("
+    
+    for i in range(len(row)):
+        if(i!=0):
+            query+=','
+        query+= str(row[i])
+    query+=")"
 
-    #create tables
-    mydb.execute("CREATE TABLE users (uname VARCHAR(255),pswd VARCHAR(40))")
-    mydb.execute("CREATE TABLE loans (Loan_ID VARCHAR(8),Gender VARCHAR(6),Married BOOLEAN,Dependents INTEGER,Education BOOLEAN,Self_Employed BOOLEAN,ApplicantIncome INTEGER, CoapplicantIncome INTEGER,LoanAmount INTEGER,Loan_Amount_Term INTEGER,Credit_History BOOLEAN,Property_Area VARCHAR(20),Loan_Status BOOLEAN)")
+    mydb.execute(query)
     mydb.commit()
 
-    #populate table with initial dataset
-    x = requests.post("http://localhost:5000/db/reset")
-
-    # train model
-    model.fit(X_train, Y_train)
+for val in Y_train.values:
+    query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
+    mydb.execute(query)
+    mydb.commit()
+    
+mydb.close()
+# train model
+model.fit(X_train, Y_train)
+print("training done")
 
 @app.route("/user/add",methods=["PUT"])
 def addUser():
@@ -123,7 +137,6 @@ def delUser(username):
 
 @app.route("/user/login",methods=["POST"])
 def login():
-    print("login")
     uname = request.get_json()["username"]
     pswd = request.get_json()["password"]
 
@@ -403,7 +416,7 @@ def resetDB():
         query+=")"
 
         mydb.execute(query)
-        mydb.coomit()
+        mydb.commit()
 
     for val in Y_train.values:
         query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
