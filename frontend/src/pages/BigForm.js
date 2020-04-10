@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Form from './Form.js'
+import Form from '../components/Form.js'
 
 class BigForm extends Form {
 	constructor(props) {
