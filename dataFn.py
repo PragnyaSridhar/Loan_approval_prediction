@@ -16,7 +16,7 @@ def fix_df():
     df['Education'] = df['Education'].map({'Graduate': 1, 'Not Graduate': 0})
     df['Loan_Status'] = df['Loan_Status'].map({'Y': 1, 'N': 0})
 
-    df.dropna()
+    df = df.dropna()
     df = upsample(df)
     return df
 
