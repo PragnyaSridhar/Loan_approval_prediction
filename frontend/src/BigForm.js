@@ -5,71 +5,75 @@ import Form from './Form.js'
 class BigForm extends Form {
 	constructor(props) {
 		super(props);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
+	onSubmit(data) {
+		
 	}
 	render() {
 		var fl = [{
 				label: "Gender",
 				type: "select",
 				options: ["Male", "Female"], /*NOTE First value in the options list will be the the default.*/
-				name: "Gender"
+				name: "gender"
 			},
 			{
 				label: "Married",
 				type: "select",
 				options: ["Yes", "No"],
-				name: "Married"
+				name: "married"
 			},
 			{
 				label: "Dependents",
 				type: "select",
 				options: ["0", "1", "2", "3+"],
-				name: "Dependents"
+				name: "dependents"
 			},
 			{
 				label: "Education",
 				type: "select",
 				options: ["Graduate", "Not Graduate"],
-				name: "Education"
+				name: "education"
 			},
 			{
 				label: "Self Employed",
 				type: "select",
 				options: ["Yes", "No"],
-				name: "Self_Employed"
+				name: "self employed"
 			},
 			{
 				label: "Applicant Income",
 				type: "number",
-				name: "Applicant_Income"
+				name: "applicant income"
 			},
 			{
 				label: "Coapplicant Income",
 				type: "number",
-				name: "Coapplicant_Income"
+				name: "coapplicant income"
 			},
 			{
 				label: "Loan Amount",
 				type: "number",
-				name: "Loan_Amount"
+				name: "loan amount"
 			},
 			{
 				label: "Loan Amount Term",
 				type: "number",
-				name: "Loan_Amount_Term"
+				name: "loan term"
 			},
 			{
 				label: "Credit History",
 				type: "number",
-				name: "Credit_History"
+				name: "credit history"
 			},
 			{
 				label: "Property Area",
 				type: "select",
 				options: ["Urban", "Rural", "SemiUrban"],
-				name: "Property_Area"
+				name: "property area"
 			},
 		]
-		return ( < Form fieldlist = { fl } submitAction = { this.onSubmit } changeState={this.props.changeState} />)
+		return ( < Form fieldlist = { fl } submitAction = { this.onSubmit } />)
 		}
 	}
 

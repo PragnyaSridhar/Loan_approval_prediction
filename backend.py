@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 from dataFn import *
 from sklearn.svm import SVC
-
+from flask_cors import CORS
 
 # apis required
 #   1   - add user(signup)
@@ -22,6 +22,7 @@ from sklearn.svm import SVC
 
 
 app = Flask(__name__)
+# CORS(app)
 
 df = fix_df()
 (X_train,Y_train,X_test,Y_test)=split_df(df)
@@ -32,6 +33,7 @@ model = SVC(kernel='rbf')
 
 @app.before_first_request
 def setup():
+    print("setup")
     global X_train
     global Y_train
     global db
@@ -121,6 +123,7 @@ def delUser(username):
 
 @app.route("/user/login",methods=["POST"])
 def login():
+    print("login")
     uname = request.get_json()["username"]
     pswd = request.get_json()["password"]
 

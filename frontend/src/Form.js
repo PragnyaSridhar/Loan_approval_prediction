@@ -1,14 +1,13 @@
 import React from 'react';
 
-class Form extends React.Component {   /*NOTE Required props: changeState and fieldlist */
+class Form extends React.Component {   /*NOTE Required props: submitAction and fieldlist */
 	constructor(props) {
 		super(props);
 		this.state = {
-			vals:[]
+			vals:{}
 		}
 		this.updateVals = this.updateVals.bind(this);
 		this.submitHandler = this.submitHandler.bind(this);
-		this.submitAction = this.submitAction.bind(this);
 	}
 	updateVals = (obj) => {
 		var vals = this.state.vals;
@@ -17,11 +16,7 @@ class Form extends React.Component {   /*NOTE Required props: changeState and fi
 	}
 	submitHandler = (event) => {
 		event.preventDefault();
-		this.submitAction();
-	}
-	submitAction = () => {
-		console.log(this.state.vals);
-		this.props.changeState();
+		this.props.submitAction(this.state.vals);
 	}
 	render() {
 		return (
@@ -35,8 +30,7 @@ class Form extends React.Component {   /*NOTE Required props: changeState and fi
 							return (<FormField key={index} label={item.label} type={item.type} name={item.name} updateVals={this.updateVals} />);
 						}
 				})}
-				< input type = "submit" value = "submit" onClick = {this.submitHandler}
-				/>
+				< input type = "submit" value = "submit" onClick = {this.submitHandler} />
 			</form >
 		)
 	}
