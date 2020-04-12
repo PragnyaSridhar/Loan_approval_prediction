@@ -1,48 +1,40 @@
 import React from 'react';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
-import Login from './Login.js'
-import BigForm from './BigForm.js'
+import Login from './pages/Login.js'
+import BigForm from './pages/BigForm.js'
+import Home from './pages/Home.js'
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logged_in: false,
-      bigFormSubmitted: false
     };
-    this.login = this.login.bind(this);
-    this.bigFormSubmit = this.bigFormSubmit.bind(this);
   };
-  login() {
-    this.setState({logged_in: true});
-  }
-  bigFormSubmit() {
-    this.setState({bigFormSubmitted: true});
-  }
   render() {
-    if (this.state.logged_in === false) {
-      return (
-        <div className="App">
-          <header>
-            <p>Header</p>
-          </header>
-          <Login changeState={this.login} />
-        </div>
-      )
-    } else if (this.state.bigFormSubmitted === false) {
-      return (
-        <div className="App">
-          <header>
-            <p>Header</p>
-          </header>
-          <BigForm changeState={this.bigFormSubmit} />
-        </div>
-      )
-    } else {
-      return (
-        <p>BLABLABLA</p>
-      )
-    }
+    return (
+      <div className="App">
+        <header>
+          <p>Header</p>
+        </header>
+          <Router>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+              {/*<Route exact path = "/bigform" render={()=>{check for the cookie here maybe ¯\_(ツ)_/¯ } (<Redirect to={{pathname: "/bigform"}} />) >*/}
+              {/*Not Sure About The Syntax Of This Line ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/}
+            { 
+              (()=> { /*check cookie here*/ return true}) &&
+              < Route exact path = "/bigform" component={BigForm} />
+            }
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </Router>
+      </div>
+    );
   }
 }
 

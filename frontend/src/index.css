@@ -44,3 +44,19 @@ input[type=submit] {
   border-radius: 4px;
   padding: 7px 10px;
 }
+
+#home {
+  padding:5%;
+  margin:5%;
+  background-color:#d3d3d3;
+  display: grid;
+  grid-template-columns: auto min-content auto;
+  /* grid-template-columns: repeat(3, 3fr); */
+}
+
+#home form {
+  display: grid;
+  width:70%;
+  margin-left: 15%;
+  grid-template-columns: repeat(1, 1fr);
+  }

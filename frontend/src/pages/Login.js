@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import Form from './Form.js'
+import Form from '../components/Form.js'
 
 class Login extends Form {
 	constructor(props) {
