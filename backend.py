@@ -64,6 +64,22 @@ for val in Y_train.values:
     query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
     mydb.execute(query)
     mydb.commit()
+
+f=open("test.txt","w")
+ls=Y_test.values
+ind=0
+
+for index,row in X_test.iterrows():
+    query=''
+    for i in range(len(row)):
+        if(i!=0):
+            query+=','
+        query+= str(row[i])
+    query+=','+str(ls[ind])+"\n"
+    ind+=1
+    f.write(query)
+f.close()
+    
     
 mydb.close()
 # train model
