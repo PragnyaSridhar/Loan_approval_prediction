@@ -1,4 +1,5 @@
 from flask import Flask,render_template,jsonify,request,abort
+from flask_cors import CORS
 import flask
 import sqlite3
 import os
@@ -22,6 +23,7 @@ from sklearn.svm import SVC
 
 
 app = Flask(__name__)
+CORS(app)
 
 df = fix_df()
 (X_train,Y_train,X_test,Y_test)=split_df(df)
@@ -86,8 +88,9 @@ mydb.close()
 model.fit(X_train, Y_train)
 print("training done")
 
-@app.route("/user/add",methods=["PUT"])
+@app.route("/user/add",methods=["POST"])
 def addUser():
+    print("add user")
     uname = request.get_json()["username"]
     pswd = request.get_json()["password"]
     cpswd = request.get_json()["confirm password"]
@@ -124,6 +127,7 @@ def addUser():
 
 @app.route("/user/<username>",methods=["DELETE"])
 def delUser(username):
+    print("delete user")
     obj = {
         "columns": "uname,pswd",
         "where": "uname='"+username+"'",
@@ -153,6 +157,7 @@ def delUser(username):
 
 @app.route("/user/login",methods=["POST"])
 def login():
+    print("login")
     uname = request.get_json()["username"]
     pswd = request.get_json()["password"]
 
@@ -171,12 +176,16 @@ def login():
     if(len(users) == 0):
         return abort(400)
     else:
-        return(jsonify({}),200)
+        resp  = flask.make_response()
+        resp.set_cookie("username",uname)
+        resp.set_cookie("password",pswd)
+        return(resp,200)
 
 # ----------------- tested
 
 @app.route("/loan/predict",methods=["POST"])
 def predict():
+    print("predict")
     global model
     gender = request.get_json()["gender"]
     dependents = request.get_json()["dependents"]
@@ -197,6 +206,7 @@ def predict():
 
 @app.route("/loan/query",methods=["POST"])
 def query():
+    print("query")
     # filter based on 
     #       loanId - T
     #       gender - D

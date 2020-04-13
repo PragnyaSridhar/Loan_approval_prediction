@@ -6,9 +6,11 @@ import {
   Route,
 } from "react-router-dom";
 
-import Login from './pages/Login.js'
-import BigForm from './pages/BigForm.js'
-import Home from './pages/Home.js'
+import Login from './pages/Login.js';
+import BigForm from './pages/BigForm.js';
+import Home from './pages/Home.js';
+import Dashboard from './pages/Dashboard.js';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,9 +20,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header>
-          <p>Header</p>
-        </header>
           <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
@@ -30,10 +29,15 @@ class App extends React.Component {
               (()=> { /*check cookie here*/ return true}) &&
               < Route exact path = "/bigform" component={BigForm} />
             }
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/predict" component={Home} />
+            <Route exact path="/query" component={Home} />
             <Route exact path="/" component={Home} />
+            
           </Switch>
         </Router>
       </div>
+
     );
   }
 }
