@@ -3,15 +3,6 @@ import GenNav from '../components/nav.js';
 import Footer from '../components/footer.js';
 
 class Dashboard {
-    logout() {
-        console.log("logout");
-    }
-    approval() {
-        // go to the big form page
-    }
-    query() {
-        // go to the query page
-    }
     render() {
         return ( 
             <>
@@ -22,7 +13,6 @@ class Dashboard {
             <Footer />
             </>
         )
-    }
+    };
 }
-
 export default Dashboard;
