@@ -1,5 +1,6 @@
 import React from 'react';
 import "materialize-css/dist/css/materialize.min.css";
+import "../index.css";
 
 
 class Form extends React.Component {   /*NOTE Required props: submitAction and fieldlist */

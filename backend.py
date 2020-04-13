@@ -1,4 +1,4 @@
-from flask import Flask,render_template,jsonify,request,abort
+from flask import Flask,render_template,jsonify,request,abort,send_file
 from flask_cors import CORS
 import flask
 import sqlite3
@@ -35,6 +35,10 @@ print("setup")
 # global Y_train
 # global db
 # global model
+
+colList={1:["Gender",("Male","Female")],2:["Married",("No","Yes")],3:["Dependents",("0","1","2","3+")],\
+         4:["Education",("Not Graduate","Graduate")],5:["Self_Employed",("No","Yes")],
+            6:["Credit_History",("No","Yes")],7:["Property_Area",("Urban","Rural","Semi-urban")]}
 
 try:
     os.system("rm "+db)
@@ -87,6 +91,20 @@ mydb.close()
 # train model
 model.fit(X_train, Y_train)
 print("training done")
+
+for i in range(4,8):
+    fn=str(i)+".png"
+    try:
+        os.system("rm "+fn)
+    except:
+        pass
+    plot_bar(X_train,Y_train,i,0.2,colList)
+print("graphs done")
+
+# plot_bar(X_train,Y_train,1,0.2,colList)
+# plot_bar(X_train,Y_train,2,0.2,colList)
+# plot_bar(X_train,Y_train,3,0.2,colList)
+# print("graphs done")
 
 @app.route("/user/add",methods=["POST"])
 def addUser():
@@ -176,10 +194,10 @@ def login():
     if(len(users) == 0):
         return abort(400)
     else:
-        resp  = flask.make_response()
-        resp.set_cookie("username",uname)
-        resp.set_cookie("password",pswd)
-        return(resp,200)
+        resp = flask.make_response()
+        resp.set_cookie('username', uname)
+        print(resp,type(resp))
+        return(resp,202)
 
 # ----------------- tested
 
@@ -316,8 +334,10 @@ def querydb():
     return(jsonify(users),200)
     
 
-@app.route("/loan/graph",methods=["POST"])
+@app.route("/loan/graph",methods=["GET"])
 def graph():
+    global colList
+    print("graphs")
     # I thought we could just make a couple of graphs and just show it
     # it should refresh by itself every 30 mins or so but to demonstrate we can make that 5 mins
     # About 4 graphs should be enough
@@ -328,7 +348,11 @@ def graph():
     # 5) income vs approval - combine bargraphs
     # 6) similar stuff
     # I will try on tableau
-    pass
+    num=request.args['num']
+    name = str(num)+".png"
+    return send_file(name, mimetype='image/png')
+
+    
 
 @app.route("/db/write", methods=["POST"])
 def insert():

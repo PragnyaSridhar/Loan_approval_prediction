@@ -27,7 +27,14 @@ class AppForm extends React.Component {
                 // navigate to dashboard
                 var res = this.responseText;
                 console.log(res);
-                alert(res);
+                if(res=="0"){
+                    // alert("NOT APPROVED!");
+                    window.location.href="/notapproved";
+                }
+                else{
+                    // alert("APPROVED!");
+                    window.location.href="/approved";
+                }
                 //window.location.href = "/dashboard";
             } else {
                 // console.log("try again");
@@ -75,12 +82,12 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="gender" type="radio" className="with-gap" value="0"  defaultChecked />
-                            <span>Male</span>
+                            <label><input name="gender" type="radio" className="with-gap" value="0"  defaultChecked />
+                            <span>Male</span></label>
                         </td>
                         <td>
-                            <input name="gender" type="radio" className="with-gap" value="1" />
-                            <span>Female</span>
+                            <label><input name="gender" type="radio" className="with-gap" value="1" />
+                            <span>Female</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -95,12 +102,12 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="married" type="radio" className="with-gap" value="1"  defaultChecked />
-                            <span>Yes</span>
+                            <label><input name="married" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Yes</span></label>
                         </td>
                         <td>
-                            <input name="married" type="radio" className="with-gap" value="0" />
-                            <span>No</span>
+                            <label><input name="married" type="radio" className="with-gap" value="0" />
+                            <span>No</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -115,20 +122,20 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="dependents" type="radio" className="with-gap" value="0"  defaultChecked />
-                            <span>0</span>
+                            <label><input name="dependents" type="radio" className="with-gap" value="0"  defaultChecked />
+                            <span>0</span></label>
                         </td>
                         <td>
-                            <input name="dependents" type="radio" className="with-gap" value="1" />
-                            <span>1</span>
+                            <label><input name="dependents" type="radio" className="with-gap" value="1" />
+                            <span>1</span></label>
                         </td>
                         <td>
-                            <input name="dependents" type="radio" className="with-gap" value="2" />
-                            <span>2</span>
+                            <label><input name="dependents" type="radio" className="with-gap" value="2" />
+                            <span>2</span></label>
                         </td>
                         <td>
-                            <input name="dependents" type="radio" className="with-gap" value="3" />
-                            <span>3+</span>
+                            <label><input name="dependents" type="radio" className="with-gap" value="3" />
+                            <span>3+</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -143,12 +150,12 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="education" type="radio" className="with-gap" value="1"  defaultChecked />
-                            <span>Graduate</span>
+                            <label><input name="education" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Graduate</span></label>
                         </td>
                         <td>
-                            <input name="education" type="radio" className="with-gap" value="0" />
-                            <span>Non Graduate</span>
+                            <label><input name="education" type="radio" className="with-gap" value="0" />
+                            <span>Non Graduate</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -163,12 +170,12 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="self employed" type="radio" className="with-gap" value="1"  defaultChecked />
-                            <span>Yes</span>
+                            <label><input name="self employed" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Yes</span></label>
                         </td>
                         <td>
-                            <input name="self employed" type="radio" className="with-gap" value="0" />
-                            <span>No</span>
+                            <label><input name="self employed" type="radio" className="with-gap" value="0" />
+                            <span>No</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -211,12 +218,12 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="credit history" type="radio" className="with-gap" value="1"  defaultChecked />
-                            <span>Yes</span>
+                            <label><input name="credit history" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Yes</span></label>
                         </td>
                         <td>
-                            <input name="credit history" type="radio" className="with-gap" value="0" />
-                            <span>No</span>
+                            <label><input name="credit history" type="radio" className="with-gap" value="0" />
+                            <span>No</span></label>
                         </td>
                     </tr>
                     </tbody>
@@ -231,16 +238,16 @@ class AppForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <input name="property area" type="radio" className="with-gap" value="1"  defaultChecked />
-                            <span>Urban</span>
+                            <label><input name="property area" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Urban</span></label>
                         </td>
                         <td>
-                            <input name="property area" type="radio" className="with-gap" value="2" />
-                            <span>Rural</span>
+                            <label><input name="property area" type="radio" className="with-gap" value="2" />
+                            <span>Rural</span></label>
                         </td>
                         <td>
-                            <input name="property area" type="radio" className="with-gap" value="3" />
-                            <span>Semi urban</span>
+                            <label><input name="property area" type="radio" className="with-gap" value="3" />
+                            <span>Semi urban</span></label>
                         </td>
                     </tr>
                     </tbody>

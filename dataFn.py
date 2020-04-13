@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.utils import resample
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 
@@ -45,5 +47,48 @@ def split_df(df):
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
 
     return(X_train,Y_train,X_test,Y_test)
+
+def get_XY(X_train, Y_train, col1):
+    X=[0,1]
+    u = X_train[col1].unique()
+    u = np.sort(u)
+    u=list(u)
+    print(u)
+    Y=[]
+    Y_train=Y_train.values
+#     print(X)
+    for x in u:
+        Y.append([0,0])
+#     print(Y)
+    i=0
+    for index,row in X_train.iterrows():
+        Y[u.index(row[col1])][Y_train[i]]+=1
+        i+=1    
+    return(X,Y)
+
+def plot_bar(X_train,Y_train,col,barWidth,colList):
+    X,Y = get_XY(X_train,Y_train,colList[col][0])
+    Xf=[]
+    if(len(colList[col][1])==3):
+        Xf.append([x-barWidth/3 for x in X])
+        Xf.append(X)
+        Xf.append([x+barWidth/3 for x in X])
+    elif(len(colList[col][1])==4):
+        Xf.append([x-barWidth/4 for x in X])
+        Xf.append([x-barWidth/2 for x in X])
+        Xf.append([x+barWidth/2 for x in X])
+        Xf.append([x+barWidth/4 for x in X])
+    else:     
+        Xf.append([x-barWidth/2 for x in X])
+        Xf.append([x + barWidth/2 for x in X])
+    colors=('#7f6d5f','#557f2d','#e57373','#00bfa5')
+    for i in range(len(Y)):                                                                                             
+        plt.bar(Xf[i], Y[i], color=colors[i], width=barWidth, edgecolor='white', label=colList[col][1][i])
+    plt.legend()
+    plt.xticks([0,1])
+    plt.title(colList[col][0]+" vs loan approval numbers")
+    plt.grid(False)
+    plt.savefig(str(col)+".png")
+    plt.clf()
 
 

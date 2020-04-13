@@ -13,10 +13,12 @@ class BigForm extends Form {
     onSubmitl(data) {
 		var xhr1 = new XMLHttpRequest();
         xhr1.onreadystatechange = function() {
-            if (this.status === 200 && this.readyState === 4) {
+            if (this.status === 202 && this.readyState === 4) {
                 // navigate to dashboard
                 console.log("logged in");
-                window.location.href = "/dashboard";
+				window.location.href = "/dashboard";
+				alert("hi"+this.responseText);
+				// document.cookie =;
             } else {
                 console.log("try again");
                 // window.location.href = "/";
@@ -34,9 +36,12 @@ class BigForm extends Form {
         xhr.onreadystatechange = function() {
             if (xhr.status === 201 && xhr.readyState === 4) {
                 // navigate to dashboard
-                console.log("okay");
+				console.log("okay");
+				alert("Successful sign up!");
+				window.location.href="/";
             } else {
-                console.log("try again");
+				console.log("try again");
+				// alert("Try again!");
                 // navigate to same page
             }
 		};
@@ -71,7 +76,9 @@ class BigForm extends Form {
         }]
         return ( 
 			<>
+			<body>
 			<Bname />
+			<main>
 			<div id = "home" className="section row" >
             <span className="section col s4 offset-s1 hoverable amber lighten-5">
 				<h5>Login:</h5>
@@ -96,7 +103,9 @@ class BigForm extends Form {
 				</form> */}
 			</span > 
 			</div>
+			</main>
 			<Footer />
+			</body>
 			</>
         )
     }

@@ -9,6 +9,10 @@ class GenNav extends React.Component {
     componentDidMount() {
         M.AutoInit();
     }
+    delCookie(){
+        console.log("deleted cookie");
+        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
     render() { 
         return(
             <nav className = "nav-wrapper yellow darken-3 row">
@@ -28,7 +32,7 @@ class GenNav extends React.Component {
             </NavLink>
 
             <NavLink to="/" exact>
-            <li className="col s1 brown">
+            <li className="col s1 brown" onClick={this.delCookie}>
                     Logout
             </li>
             </NavLink>
