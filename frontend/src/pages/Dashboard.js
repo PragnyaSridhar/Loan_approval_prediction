@@ -2,7 +2,7 @@ import React from 'react';
 import GenNav from '../components/nav.js';
 import Footer from '../components/footer.js';
 
-class Dashboard {
+class Dashboard extends React.Component{
     render() {
         return ( 
             <>

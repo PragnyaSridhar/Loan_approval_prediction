@@ -1,5 +1,5 @@
 import React from "react";
-
+import "materialize-css/dist/css/materialize.min.css";
 // import { NavLink } from "react-router-dom";
 import M from "materialize-css";
 

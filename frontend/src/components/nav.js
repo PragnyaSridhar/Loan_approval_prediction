@@ -10,15 +10,15 @@ class GenNav extends React.Component {
     }
     render() { 
         return(
-        <div classname="navb" >
+        <div className="navb" >
             <h1>APD BANK</h1>
-            <a className="logout" href="#">
+            <button className="logout">
                   <NavLink to="/" exact>
                     Logout
                   </NavLink>
-            </a>
-            <button onClick = { window.location.href = "/predict" } id = { "b" } > Predict </button> 
-            <button onClick = { window.location.href = "/query" } id = { "b" } > Query </button> 
+            </button>
+            {/* <button onClick = { window.location.href = "/predict" } id = { "b" } > Predict </button>  */}
+            {/* <button onClick = { window.location.href = "/query" } id = { "b" } > Query </button>  */}
         </div > 
         )
     }
