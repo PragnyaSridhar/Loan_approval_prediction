@@ -187,25 +187,27 @@ def login():
 def predict():
     print("predict")
     global model
-    gender = request.get_json()["gender"]
-    dependents = request.get_json()["dependents"]
-    education = request.get_json()["education"]
-    selfEmployed = request.get_json()["self employed"]
-    appInc = request.get_json()["applicant income"]
-    cappInc = request.get_json()["coapplicant income"]
-    loanAmt = request.get_json()["loan amount"]
-    loanTerm = request.get_json()["loan term"]
-    credHist = request.get_json()["credit history"]
-    propAr = request.get_json()["property area"]
+    gender = int(request.get_json()["gender"])
+    married = int(request.get_json()["married"])
+    dependents = int(request.get_json()["dependents"])
+    education = int(request.get_json()["education"])
+    selfEmployed = int(request.get_json()["self employed"])
+    appInc = int(request.get_json()["applicant income"])
+    cappInc = int(request.get_json()["coapplicant income"])
+    loanAmt = int(request.get_json()["loan amount"])
+    loanTerm = int(request.get_json()["loan term"])
+    credHist = int(request.get_json()["credit history"])
+    propAr = int(request.get_json()["property area"])
 
-    data = [[gender,dependents,education,selfEmployed,appInc,cappInc,loanAmt,loanTerm,credHist,propAr]]
+    data = [[gender,married,dependents,education,selfEmployed,appInc,cappInc,loanAmt,loanTerm,credHist,propAr]]
 
     res = model.predict(data)
-    return (res[0],200)
+    print("----------------------------------------------\n",res[0],"\n-------------------------------------")
+    return (str(res[0]),200)
     
 
 @app.route("/loan/query",methods=["POST"])
-def query():
+def querydb():
     print("query")
     # filter based on 
     #       loanId - T

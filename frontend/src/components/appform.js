@@ -2,33 +2,88 @@ import React from 'react';
 import M from "materialize-css";
 
 
-import GenNav from '../components/nav.js';
-import Footer from '../components/footer.js';
-
 class AppForm extends React.Component {
     componentDidMount() {
         M.AutoInit();
     }
+
+    get_val(name){
+        var e=document.getElementsByName(name);
+        var i;
+        for(i=0;i<e.length;i++){
+            if(e[i].checked=== true){
+                return(e[i].value);
+            }
+        }
+    }
+
+    get_num(name){
+        var e=document.getElementsByName(name);
+        return (e[0].value);
+    }
+
+    show(){
+            if (this.status === 200 && this.readyState === 4) {
+                // navigate to dashboard
+                var res = this.responseText;
+                console.log(res);
+                alert(res);
+                //window.location.href = "/dashboard";
+            } else {
+                // console.log("try again");
+                // window.location.href = "/";
+                // navigate to same page
+            }
+    }
+    onSubmit = (event) =>{
+        event.preventDefault();
+        var gender = this.get_val("gender");
+        var married = this.get_val("married");
+        var dependents = this.get_val("dependents");
+        var education = this.get_val("education");
+        var selfemployed = this.get_val("self employed");
+        var appinc = this.get_num("applicant income");
+        var cappinc = this.get_num("coapplicant income");
+        var lnamt = this.get_num("loan amount");
+        var lnterm = this.get_num("loan term");
+        var credhist = this.get_val("credit history");
+        var propAr = this.get_val("property area");
+
+        var data={"gender":gender,"married":married,"dependents":dependents,"education":education,
+    "self employed":selfemployed,"applicant income": appinc, "coapplicant income":cappinc,"loan amount":lnamt,
+"loan term":lnterm,"credit history":credhist,"property area":propAr};
+        
+        console.log(JSON.stringify(data));
+
+        var  xhr= new XMLHttpRequest();
+        xhr.onreadystatechange = this.show;
+        xhr.open("POST", "http://localhost:5000/loan/predict");
+        xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(data));
+    }
+    
     render() { 
         return(
         <div className="row">
-        <form action="#" className=" col s6 offset-s3 amber lighten-4">
+        <form className=" col s6 offset-s3 amber lighten-4">
             <h5><b>Please enter your details:</b></h5>
             <ul>
                 <li>
                 <div className="row">
                     <p className="col s3">Gender:</p>
                 <table className="col s4">
+                    <tbody>
                     <tr>
                         <td>
-                            <input name="Gender" type="radio" className="with-gap" value="1" checked />
+                            <input name="gender" type="radio" className="with-gap" value="0"  defaultChecked />
                             <span>Male</span>
                         </td>
                         <td>
-                            <input name="Gender" type="radio" className="with-gap" value="0"/>
+                            <input name="gender" type="radio" className="with-gap" value="1" />
                             <span>Female</span>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 </div>
                 </li>
@@ -37,42 +92,46 @@ class AppForm extends React.Component {
                 <div className="row">
                     <p className="col s3">Marital Status:</p>
                 <table className="col s4">
+                    <tbody>
                     <tr>
                         <td>
-                            <input name="Married" type="radio" className="with-gap" value="1" checked />
+                            <input name="married" type="radio" className="with-gap" value="1"  defaultChecked />
                             <span>Yes</span>
                         </td>
                         <td>
-                            <input name="Married" type="radio" className="with-gap" value="0"/>
+                            <input name="married" type="radio" className="with-gap" value="0" />
                             <span>No</span>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 </div>
                 </li>
 
                 <li>
                 <div className="row">
-                    <p className="col s3">Number of Dependants:</p>
+                    <p className="col s3">Number of dependents:</p>
                 <table className="col s8">
+                    <tbody>
                     <tr>
                         <td>
-                            <input name="Dependants" type="radio" className="with-gap" value="0" checked />
+                            <input name="dependents" type="radio" className="with-gap" value="0"  defaultChecked />
                             <span>0</span>
                         </td>
                         <td>
-                            <input name="Dependants" type="radio" className="with-gap" value="1"/>
+                            <input name="dependents" type="radio" className="with-gap" value="1" />
                             <span>1</span>
                         </td>
                         <td>
-                            <input name="Dependants" type="radio" className="with-gap" value="2"/>
+                            <input name="dependents" type="radio" className="with-gap" value="2" />
                             <span>2</span>
                         </td>
                         <td>
-                            <input name="Dependants" type="radio" className="with-gap" value="3"/>
+                            <input name="dependents" type="radio" className="with-gap" value="3" />
                             <span>3+</span>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 </div>
                 </li>
@@ -81,16 +140,18 @@ class AppForm extends React.Component {
                 <div className="row">
                     <p className="col s3">Education:</p>
                 <table className="col s6">
+                    <tbody>
                     <tr>
                         <td>
-                            <input name="Education" type="radio" className="with-gap" value="1" checked />
+                            <input name="education" type="radio" className="with-gap" value="1"  defaultChecked />
                             <span>Graduate</span>
                         </td>
                         <td>
-                            <input name="Education" type="radio" className="with-gap" value="0"/>
+                            <input name="education" type="radio" className="with-gap" value="0" />
                             <span>Non Graduate</span>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 </div>
                 </li>
@@ -99,16 +160,18 @@ class AppForm extends React.Component {
                 <div className="row">
                     <p className="col s3">Self Employed:</p>
                 <table className="col s4">
+                    <tbody>
                     <tr>
                         <td>
-                            <input name="Self employed" type="radio" className="with-gap" value="1" checked />
+                            <input name="self employed" type="radio" className="with-gap" value="1"  defaultChecked />
                             <span>Yes</span>
                         </td>
                         <td>
-                            <input name="Self employed" type="radio" className="with-gap" value="0"/>
+                            <input name="self employed" type="radio" className="with-gap" value="0" />
                             <span>No</span>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
                 </div>
                 </li>
@@ -116,33 +179,77 @@ class AppForm extends React.Component {
                 <li>
                 <div className="row">
                     <p className="col s3">Applicant income($) :</p>
-                    <input className="col s4" type="text" placeholder="Applicant Income" />
+                    <input className="col s4" type="number" placeholder="Applicant Income" name="applicant income"  required/>
                 </div>
                 </li>
 
                 <li>
                 <div className="row">
                     <p className="col s3">Co-applicant income($) :</p>
-                    <input className="col s4" type="text" placeholder="C0-applicant Income" />
+                    <input className="col s4" type="number" placeholder="Coapplicant Income" name="coapplicant income"  required/>
                 </div>
                 </li>
 
                 <li>
                 <div className="row">
-                    <p className="col s3">Loan amount($) :</p>
-                    <input className="col s4" type="text" placeholder="Loan amount" />
+                    <p className="col s3">Loan amount($):</p>
+                    <input className="col s4" type="number" placeholder="Loan amount" name="loan amount"  required/>
                 </div>
                 </li>
 
                 <li>
                 <div className="row">
                     <p className="col s3">Loan term (months):</p>
-                    <input className="col s4" type="text" placeholder="Loan term" />
+                    <input className="col s4" type="number" placeholder="Loan term" name="loan term"  required/>
                 </div>
                 </li>
 
+                <li>
+                <div className="row">
+                    <p className="col s3">Credit history:</p>
+                <table className="col s4">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input name="credit history" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Yes</span>
+                        </td>
+                        <td>
+                            <input name="credit history" type="radio" className="with-gap" value="0" />
+                            <span>No</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                </li>
 
+                <li>
+                <div className="row">
+                    <p className="col s3">Property area:</p>
+                <table className="col s8">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input name="property area" type="radio" className="with-gap" value="1"  defaultChecked />
+                            <span>Urban</span>
+                        </td>
+                        <td>
+                            <input name="property area" type="radio" className="with-gap" value="2" />
+                            <span>Rural</span>
+                        </td>
+                        <td>
+                            <input name="property area" type="radio" className="with-gap" value="3" />
+                            <span>Semi urban</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                </li>
             </ul>
+            <button type="submit" className="hoverable waves-effect waves-light btn brown darken-4" onClick={this.onSubmit}>Predict</button>
+            <br></br>
         </form>
         </div>
 
