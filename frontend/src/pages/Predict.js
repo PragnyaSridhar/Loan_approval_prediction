@@ -1,6 +1,9 @@
 import React from 'react';
 
+
 import Form from '../components/Form.js'
+import GenNav from '../components/nav.js';
+import Footer from '../components/footer.js';
 
 class BigForm extends Form {
 	constructor(props) {
@@ -73,7 +76,18 @@ class BigForm extends Form {
 				name: "property area"
 			},
 		]
-		return ( < Form fieldlist = { fl } submitAction = { this.onSubmit } />)
+		return ( 
+		<>
+		<GenNav />
+		<h4><b>Predict loan approval:</b></h4>
+		<div className="row">
+		<span className="col s6 offset-s3 amber lighten-4 hoverable">
+		< Form fieldlist = { fl } submitAction = { this.onSubmit } />
+		</span>
+		</div>
+		<Footer />
+		</>
+		);
 		}
 	}
 

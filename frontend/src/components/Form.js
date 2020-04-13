@@ -1,4 +1,6 @@
 import React from 'react';
+import "materialize-css/dist/css/materialize.min.css";
+
 
 class Form extends React.Component {   /*NOTE Required props: submitAction and fieldlist */
 	constructor(props) {
@@ -20,17 +22,17 @@ class Form extends React.Component {   /*NOTE Required props: submitAction and f
 	}
 	render() {
 		return (
-			<form className="Form">
+			<form className="center">
 				{
 					this.props.fieldlist.map((item,index) => {
 						if (item.type === "select") {
-							return (<FormField key={index} label={item.label} type={item.type} name={item.name} options={item.options} updateVals={this.updateVals} />);
+							return (<FormField key={index} placeholder={item.label} type={item.type} name={item.name} options={item.options} updateVals={this.updateVals}/>);
 						}
 						else {
-							return (<FormField key={index} label={item.label} type={item.type} name={item.name} updateVals={this.updateVals} />);
+							return (<FormField key={index} placeholder={item.label} type={item.type} name={item.name} updateVals={this.updateVals} />);
 						}
 				})}
-				< input type = "submit" value = "submit" onClick = {this.submitHandler} />
+				< button type = "submit" value = "submit" onClick = {this.submitHandler} className="hoverable waves-effect waves-light btn brown darken-4" >Submit</ button>
 			</form >
 		)
 	}
@@ -63,7 +65,7 @@ class FormField extends React.Component {
 			return(
 				<label>
 					{this.props.label}:
-					<select name={this.props.name} onChange={this.myChangeHandler} >
+					<select name={this.props.name} onChange={this.myChangeHandler} placeholder={this.props.placeholder} >
 						{this.props.options.map((item,index) => { return (<option key={index} value={item}>{item}</option>);})}
 					</select>
 				</label>
@@ -72,7 +74,7 @@ class FormField extends React.Component {
 			return (
 			<label>
 				{this.props.label}:
-				< input type = { this.props.type } name = { this.props.name } onChange = { this.myChangeHandler } />
+				< input type = { this.props.type } placeholder={this.props.placeholder} name = { this.props.name } onChange = { this.myChangeHandler } />
 			</label>
 			)
 		}

@@ -53,7 +53,7 @@ class BigForm extends Form {
             name: "username"
         }, {
             label: "Password",
-            type: "text",
+            type: "password",
             name: "password"
         }]
         var signup_fl = [{
@@ -62,27 +62,38 @@ class BigForm extends Form {
             name: "username"
         }, {
             label: "Password",
-            type: "text",
+            type: "password",
             name: "password"
         }, {
             label: "Confirm Password",
-            type: "text",
+            type: "password",
             name: "confirm password"
         }]
         return ( 
 			<>
 			<Bname />
-			<div id = "home" >
-            <span>
-				Login:
+			<div id = "home" className="section row" >
+            <span className="section col s4 offset-s1 hoverable amber lighten-5">
+				<h5>Login:</h5>
 				< Form fieldlist = { login_fl } submitAction = { this.onSubmitl }/>   
+				{/* <form className="center">
+					<input type="text" name="username" placeholder="Username"></input>
+					<input type="password" name="password" placeholder="Password"></input>
+					<button type="submit" onClick={this.onSubmitl} className="hoverable waves-effect waves-light btn-small brown darken-4">Login</button><br></br>
+				</form> */}
 			</span > 
-			<span >
-            <h3 > OR </h3>  
+			<span className="col s2">
+            <h4 ><b> OR </b></h4>  
 			</span > 
-			<span >
-            	Sign Up:
+			<span className="section col s4 hoverable amber lighten-5">
+            	<h5>Sign up:</h5>
             	<Form fieldlist = { signup_fl } submitAction = { this.onSubmits }/>  
+				{/* <form className="center">
+					<input type="text" placeholder="Username" name="username"></input>
+					<input type="password" placeholder="Password" name="password"></input>
+					<input type="password" placeholder="Confirm password" name="confirm password"></input>
+					<button type="submit" onClick="this.onSubmits" className="waves-effect waves-light btn brown darken-4">Sign up</button><br></br>
+				</form> */}
 			</span > 
 			</div>
 			<Footer />

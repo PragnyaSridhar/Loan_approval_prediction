@@ -9,13 +9,11 @@ class Bname extends React.Component {
     }
     render() { 
     return(
-    <header >
-        <nav className = "nav-wrapper yellow darken-3">
-            <div id = "title" >
-            <h1><a href ="#top" > APD Bank </a></h1>
+        <header className = "section yellow darken-3">
+            <div id = "title" className="brown-text text-darken-4">
+            <h1><b>APD Bank</b></h1>
             </div> 
-        </nav> 
-    </header> 
+        </header> 
     )
     }
 }
