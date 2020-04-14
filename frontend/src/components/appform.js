@@ -62,17 +62,22 @@ class AppForm extends React.Component {
         
         console.log(JSON.stringify(data));
 
-        var  xhr= new XMLHttpRequest();
-        xhr.onreadystatechange = this.show;
-        xhr.open("POST", "http://localhost:5000/loan/predict");
-        xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify(data));
+        if(appinc==="" || cappinc==="" || lnamt==="" || lnterm===""){
+            alert("Please fill all the details");
+        }
+        else{
+            var  xhr= new XMLHttpRequest();
+            xhr.onreadystatechange = this.show;
+            xhr.open("POST", "http://localhost:5000/loan/predict");
+            xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+        }
     }
     
     render() { 
         return(
         <div className="row">
-        <form className=" col s6 offset-s3 amber lighten-4">
+        <form className=" col s10 offset-s1 amber lighten-4">
             <h5><b>Please enter your details:</b></h5>
             <ul>
                 <li>

@@ -5,7 +5,9 @@ import M from "materialize-css";
 class Carousel extends React.Component {
     componentDidMount(){
         M.AutoInit();  
-        this.multi(1); 
+        // this.multi(1); 
+        var t = this;
+        setTimeout(function(){t.multi(1);},2000);
     }
 
     show(){
@@ -44,25 +46,36 @@ class Carousel extends React.Component {
         // }
         xhr.send();
         this.f1(i);
+        // setTimeout(function(){f1(i);},2000);
     }
     f1(i){
         if(i<7){
             i=i+1;
-            this.multi(i);
-            setTimeout(function(){this.multi(i);},2000);
+            var x = this.multi;
+            // function x(){
+            //     this.multi(i+1);
+            // }
+            var t=this;
+            setTimeout(function(){t.multi(i);console.log("hgh");},5000);
         }
     }
 
     render(){
         return(
-        <div className="row">
-            <div>
-                {/* <button onClick={this.multi}>Render Graphs</button> */}
-                <div id="imgs">
-                    
+            <>
+            <div className = "row">
+                <div className="col s10 offset-s1">
+                <center><h3><b>Common Statistics of Loan Approval</b></h3></center>
                 </div>
             </div>
+            
+        <div className="row">
+                {/* <button onClick={this.multi}>Render Graphs</button> */}                
+                <div id="imgs" className = "col s8 offset-s2">
+                    
+                </div>
         </div>
+        </>
         );
     }
 }

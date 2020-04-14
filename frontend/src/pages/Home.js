@@ -13,12 +13,12 @@ class BigForm extends Form {
     onSubmitl(data) {
 		var xhr1 = new XMLHttpRequest();
         xhr1.onreadystatechange = function() {
-            if (this.status === 202 && this.readyState === 4) {
+            if (this.status === 200 && this.readyState === 4) {
                 // navigate to dashboard
                 console.log("logged in");
 				window.location.href = "/dashboard";
 				alert("hi"+this.responseText);
-				// document.cookie =;
+				document.cookie ="username="+this.responseText+"; expires=Thu, 01 Jan 2970 00:00:00 UTC";
             } else {
                 console.log("try again");
                 // window.location.href = "/";

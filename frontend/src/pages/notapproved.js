@@ -14,8 +14,12 @@ class NotApproved extends React.Component {
         return(
         <>
         <GenNav />
-        <h2>We are sorry to inform you that your loan has <b>not</b> been approved. Thank you for your time and patience.
+        <div className="row">
+        <div className="col s10 offset-s1">
+        <h2>We regret to inform you that your loan has <b>not</b> been approved. Thank you for your time and patience.
         Any inconvinience is highly regretted.</h2>
+        </div>
+        </div>
         <Footer />
         </>
         )

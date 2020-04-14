@@ -11,17 +11,18 @@ class GenNav extends React.Component {
     }
     delCookie(){
         console.log("deleted cookie");
-        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // var name = document.cookie["username"];
+        // document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
     render() { 
         return(
-            <nav className = "nav-wrapper yellow darken-3 row">
+            <nav className = "nav-wrapper yellow darken-3 row center-align">
                 <NavLink to="/dashboard" exact>
-                <h4 className="col s3 brown-text text-darken-4 left-align"><b>APD BANK</b></h4>
+                <h4 id = "Navt" className="col s4 brown-text text-darken-4 top-align"><b>APD BANK</b></h4>
                 </NavLink>
             <ul>
             <NavLink to="/predict" exact>
-            <li className="waves-effect col s1 offset-s6 brown">
+            <li className="waves-effect col s1 offset-s5 brown">
                     Predict
             </li>
             </NavLink>

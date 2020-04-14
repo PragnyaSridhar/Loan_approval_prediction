@@ -88,6 +88,8 @@ def plot_bar(X_train,Y_train,col,barWidth,colList):
     plt.xticks([0,1])
     plt.title(colList[col][0]+" vs loan approval numbers")
     plt.grid(False)
+    plt.xlabel('Loan Status')
+    plt.ylabel('Count')
     plt.savefig(str(col)+".png")
     plt.clf()
 

@@ -197,7 +197,7 @@ def login():
         resp = flask.make_response()
         resp.set_cookie('username', uname)
         print(resp,type(resp))
-        return(resp,202)
+        return(str(uname),200)
 
 # ----------------- tested
 
