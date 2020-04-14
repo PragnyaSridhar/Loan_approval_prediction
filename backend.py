@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 from dataFn import *
 from sklearn.svm import SVC
+import pickle
 
 
 # apis required
@@ -25,8 +26,8 @@ from sklearn.svm import SVC
 app = Flask(__name__)
 CORS(app)
 
-df = fix_df()
-(X_train,Y_train,X_test,Y_test)=split_df(df)
+# df = fix_df()
+# (X_train,Y_train,X_test,Y_test)=split_df(df)
 db='loan.db'
 model = SVC(kernel='rbf')
 
@@ -52,54 +53,56 @@ mydb.execute("CREATE TABLE loans (Loan_ID VARCHAR(8),Gender VARCHAR(6),Married B
 mydb.commit()
 
 #populate table with initial dataset
-for index,row in X_train.iterrows():
-    query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
-        'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
-                'Property_Area') VALUES ("
+# for index,row in X_train.iterrows():
+#     query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
+#         'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
+#                 'Property_Area') VALUES ("
     
-    for i in range(len(row)):
-        if(i!=0):
-            query+=','
-        query+= str(row[i])
-    query+=")"
+#     for i in range(len(row)):
+#         if(i!=0):
+#             query+=','
+#         query+= str(row[i])
+#     query+=")"
 
-    mydb.execute(query)
-    mydb.commit()
+#     mydb.execute(query)
+#     mydb.commit()
 
-for val in Y_train.values:
-    query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
-    mydb.execute(query)
-    mydb.commit()
+# for val in Y_train.values:
+#     query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
+#     mydb.execute(query)
+#     mydb.commit()
 
-f=open("test.txt","w")
-ls=Y_test.values
-ind=0
+# f=open("test.txt","w")
+# ls=Y_test.values
+# ind=0
 
-for index,row in X_test.iterrows():
-    query=''
-    for i in range(len(row)):
-        if(i!=0):
-            query+=','
-        query+= str(row[i])
-    query+=','+str(ls[ind])+"\n"
-    ind+=1
-    f.write(query)
-f.close()
+# for index,row in X_test.iterrows():
+#     query=''
+#     for i in range(len(row)):
+#         if(i!=0):
+#             query+=','
+#         query+= str(row[i])
+#     query+=','+str(ls[ind])+"\n"
+#     ind+=1
+#     f.write(query)
+# f.close()
     
     
 mydb.close()
 # train model
-model.fit(X_train, Y_train)
+# model.fit(X_train, Y_train)
+with open("model.pickle", "r+b") as f:
+    model = pickle.load(f)
 print("training done")
 
-for i in range(4,8):
-    fn=str(i)+".png"
-    try:
-        os.system("rm "+fn)
-    except:
-        pass
-    plot_bar(X_train,Y_train,i,0.2,colList)
-print("graphs done")
+# for i in range(4,8):
+#     fn=str(i)+".png"
+#     try:
+#         os.system("rm "+fn)
+#     except:
+#         pass
+#     plot_bar(X_train,Y_train,i,0.2,colList)
+# print("graphs done")
 
 # plot_bar(X_train,Y_train,1,0.2,colList)
 # plot_bar(X_train,Y_train,2,0.2,colList)
