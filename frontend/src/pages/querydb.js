@@ -5,7 +5,7 @@ import Form from '../components/Form.js'
 import GenNav from '../components/nav.js';
 import Footer from '../components/footer.js';
 
-class BigForm extends Form {
+class Query extends Form {
 	constructor(props) {
 		super(props);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -97,4 +97,4 @@ class BigForm extends Form {
 		}
 	}
 
-export default BigForm;
+export default Query;

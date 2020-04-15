@@ -12,6 +12,7 @@ import Home from './pages/Home.js';
 import Dashboard from './pages/Dashboard.js';
 import Approved from './pages/approved.js';
 import NotApproved from './pages/notapproved.js';
+import Query from './pages/querydb.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends React.Component {
             }
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/predict" component={Predict} />
-            <Route exact path="/query" component={Home} />
+            <Route exact path="/query" component={Query} />
             <Route exact path="/" component={Home} />
             <Route exact path="/notapproved" component={NotApproved} />
             <Route exact path="/approved" component={Approved} />
