@@ -16,6 +16,7 @@ class GenNav extends React.Component {
     }
     render() { 
         return(
+            <header>
             <nav className = "nav-wrapper yellow darken-3 row center-align">
                 <NavLink to="/dashboard" exact>
                 <h4 id = "Navt" className="col s4 brown-text text-darken-4 top-align"><b>APD BANK</b></h4>
@@ -50,6 +51,7 @@ class GenNav extends React.Component {
             {/* <button onClick = { window.location.href = "/predict" } id = { "b" } > Predict </button>  */}
             {/* <button onClick = { window.location.href = "/query" } id = { "b" } > Query </button>  */}
         </nav> 
+        </header>
         )
     }
 }

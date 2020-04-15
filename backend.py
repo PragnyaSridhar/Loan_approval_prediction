@@ -117,7 +117,7 @@ model.fit(X_train, Y_train)
 #     model = pickle.load(f)
 print("training done")
 
-for i in range(4,8):
+for i in range(1,8):
     fn=str(i)+".png"
     try:
         os.system("rm "+fn)
@@ -314,6 +314,17 @@ def predict():
 
     res = model.predict(data)
     data[0].append(res[0])
+    if(data[0][0]==0):
+        data[0][0]='0.0'
+    else:
+        data[0][0]='1.0'
+
+    if(data[0][10]==1):
+        data[0][10]="1.0"
+    elif(data[0][10]==2):
+        data[0][10]="2.0"
+    else:
+        data[0][10]="3.0"
     print("----------------------------------------------\n",res[0],"\n-------------------------------------")
     obj = {
         "operation": "insert",

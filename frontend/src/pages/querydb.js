@@ -14,6 +14,7 @@ class Query extends React.Component {
         return(
         <>
         <GenNav />
+		<body>
         <div className="row">
             <div className = "col s10 offset-s1">
             <h3>Query DB</h3>
@@ -22,6 +23,7 @@ class Query extends React.Component {
         
         <QueryForm />
         <div></div>
+		</body>
         <Footer />
         </>
         )

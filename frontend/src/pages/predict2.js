@@ -14,6 +14,7 @@ class Predict extends React.Component {
         return(
         <>
         <GenNav />
+        <body>
         <div className="row">
             <div className = "col s10 offset-s1">
             <h3>Predict Loan Approval</h3>
@@ -21,7 +22,8 @@ class Predict extends React.Component {
         </div>
         
         <AppForm />
-        <div></div>
+        </body>
+        
         <Footer />
         </>
         )

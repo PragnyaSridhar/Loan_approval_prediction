@@ -10,7 +10,7 @@ class Footer extends React.Component {
     }
     render() { 
         return(
-        <footer className="page-footer yellow darken-4 brown-text text-darken-4">
+        <footer className="footer">
                 <h6 ><b> Web Technologies II Laboratory </b></h6> 
                 <p > Deepika Karanji, Pragnya Sridhar, Aprameya Kulkarni </p> 
         </footer>

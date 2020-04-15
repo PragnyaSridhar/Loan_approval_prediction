@@ -54,7 +54,7 @@ class QueryForm extends React.Component {
                 var d = document.getElementById("content");
                 d.style.display="block";
                 d.innerHTML = `
-                <table id="tab" className="centered highlight responsive-table brown lighten-4">
+                <table id="tab" className="centered highlight responsive-table brown lighten-4" style={{fontSize:"70%"}}>
                 <tr   className="row" >
                        <span className="col s1 "><th><center>Sl no</center></th></span>
                        <span className="col s1 offset-s1"><th><center>Gender</center></th></span>
@@ -78,6 +78,7 @@ class QueryForm extends React.Component {
                 // var tab = document.getElementById("tab");
                 // var i;
                 var ct = document.getElementById("con");
+                ct.innerHTML="";
                 var c=`
                 <div className="row">
                 <div classname = "col s6 offset-s3">
@@ -94,10 +95,10 @@ class QueryForm extends React.Component {
                         var r = resp[i].split(",");
                         var j;
                         var o=1;
-                        res+="<span className='col s1 '><td>"+(i+1)+"</td></span>";
+                        res+="<span className='col s1 '><td><center>"+(i+1)+"</center></td></span>";
                         for(j=0;j<r.length;j++){
                             if(1){
-                                res+="<span className='col s1 offset-s"+toString(o)+" '><td>"+r[j]+"</td></span>";
+                                res+="<span className='col s1 offset-s"+toString(o)+" '><td><center>"+r[j]+"</center></td></span>";
                             }
                             // else{
                             //     res+="<span className='col s1 '"+toString(o)+"><td>"+r[j]+"</td></span>";
@@ -167,16 +168,24 @@ class QueryForm extends React.Component {
         
         console.log(JSON.stringify(data));
 
-        var  xhr= new XMLHttpRequest();
-        xhr.onreadystatechange = this.show;
-        xhr.open("POST", "http://localhost:5000/loan/query");
-        xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify(data));
+        var t=this;
+        function xhr_call(data){
+            var  xhr= new XMLHttpRequest();
+            xhr.onreadystatechange = t.show;
+            xhr.open("POST", "http://localhost:5000/loan/query");
+            xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+        }
+
+        xhr_call(data);
+        
         // var run = setInterval((data) => {                 //NOT WORKING!!!!
         //     console.log("*******************");
         //     xhr.open("POST", "http://localhost:5000/loan/query");
         //     xhr.send(JSON.stringify(data));
         // },10000);
+
+        setTimeout(function(){xhr_call(data);},10000);
     }
     
     render() { 

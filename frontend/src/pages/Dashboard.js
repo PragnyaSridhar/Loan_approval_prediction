@@ -12,8 +12,11 @@ class Dashboard extends React.Component{
         return ( 
             <>
             <GenNav />
+            <body>
             <Carousel />
+            </body>
             <Footer />
+            
 
 
             </>
