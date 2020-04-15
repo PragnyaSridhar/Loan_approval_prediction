@@ -118,7 +118,7 @@ model.fit(X_train, Y_train)
 print("training done")
 
 for i in range(1,8):
-    fn=str(i)+".png"
+    fn="./graphs/"+str(i)+".png"
     try:
         os.system("rm "+fn)
     except:
@@ -520,7 +520,7 @@ def graph():
     # 6) similar stuff
     # I will try on tableau
     num=request.args['num']
-    name = str(num)+".png"
+    name = "./graphs/"+str(num)+".png"
     return send_file(name, mimetype='image/png')
 
     

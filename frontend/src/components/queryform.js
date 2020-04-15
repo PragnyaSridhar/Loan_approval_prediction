@@ -84,7 +84,13 @@ class QueryForm extends React.Component {
                 <div classname = "col s6 offset-s3">
                 <h6>Found `;
                 c+=l-1;
-                c+=` records</h6> 
+                if(l===2){
+                    c+=" records "
+                }
+                else{
+                    c+=" record"
+                }
+                c+=`</h6> 
                 </div></div>`;
                 ct.innerHTML=c;
                 function printrows(resp,num){

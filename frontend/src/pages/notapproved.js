@@ -11,18 +11,25 @@ class NotApproved extends React.Component {
         M.AutoInit();
     }
     render() { 
+        if(document.cookie!==""){
         return(
         <>
         <GenNav />
+        <div className="bod">
         <div className="row">
         <div className="col s10 offset-s1">
         <h2>We regret to inform you that your loan has <b>not</b> been approved. Thank you for your time and patience.
         Any inconvinience is highly regretted.</h2>
         </div>
         </div>
+        </div>
         <Footer />
         </>
         )
+        }
+        else{
+            window.location.href="/";
+        }
     }
 }
 

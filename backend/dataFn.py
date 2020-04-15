@@ -90,7 +90,7 @@ def plot_bar(X_train,Y_train,col,barWidth,colList):
     plt.grid(False)
     plt.xlabel('Loan Status')
     plt.ylabel('Count')
-    plt.savefig(str(col)+".png")
+    plt.savefig("./graphs/"+str(col)+".png")
     plt.clf()
 
 
