@@ -230,7 +230,7 @@ def predict():
 @app.route("/loan/query",methods=["POST"])
 def querydb():
     print("query")
-    # filter based on 
+    # filter based on   
     #       loanId - T
     #       gender - D
     #       dependents - D
