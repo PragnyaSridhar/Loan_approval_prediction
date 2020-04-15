@@ -354,10 +354,20 @@ def querydb():
     where=''
     flag=0
     if(gender!=''):
-        gender = make_str(gender)
-        where+="Gender IN "+gender
+        gen="("
+        for g in range(len(gender)):
+            if(g!=0):
+                gen+=","
+            if(gender[g]==0):
+                gen+="0.0"
+            else:
+                gen+="1.0"
+        gen+=")"
+        # gender = make_str(gender)
+        where+="Gender IN "+gen
         flag=1
     if(married!=''):
+        married = make_str(married)
         if(flag==1):
             where+=' AND'
         flag=1

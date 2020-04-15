@@ -27,19 +27,56 @@ class QueryForm extends React.Component {
         return (parseInt(e[0].value));
     }
 
+    make_row(row){
+        var res="<tr>";
+        var r = row.split(",");
+        var i;
+        for(i=0;i<r.length;i++){
+            res+="<th>"+r[i]+"</th>";
+        }
+        res+="</tr>";
+        return res;
+    }
+
+    printrows(resp,num){
+        var tab = document.getElementById("tab");
+        var i;
+        for(i=num;i<num+10;i++){
+            var res="<tr>";
+            var r = resp[i].split(",");
+            var j;
+            var o=1;
+            for(j=0;j<r.length;j++){
+                if(j!=0){
+                    res+="<span className='col s1 offset-s"+toString(o)+"'><th>"+r[j]+"</th></span>";
+                }
+                else{
+                    res+="<span className='col s1'"+toString(o)+"><th>"+r[j]+"</th></span>";
+                    // console.log("0000");
+                }
+                o++;
+            }
+            res+="</tr>";
+            tab.innerHTML+=res;
+        }
+        
+    }
+
     show(){
+        var t = this;
             if (this.status === 200 && this.readyState === 4) {
                 var resp = this.responseText;
                 resp = resp.split(";");
                 console.log(resp.length);
                 var hf = document.getElementById("hf");
-                // var table = hf.createElement("table");
-                // do hf.show
-                // var i;
-                // for(i=0;i<resp.length;i++){
-                    
-                // }
-                console.log(resp[0])
+                hf.style.display="block";
+                // t.printrows(resp,0);
+
+                var tab = document.getElementById("tab");
+                var i;
+                t.printrows(resp,0);
+
+                console.log(resp[0]);
             } else {
                 // console.log("try again");
                 // window.location.href = "/";
@@ -301,25 +338,32 @@ class QueryForm extends React.Component {
         </form>
         </div>
         
+        <div id="hf" style={{display:"none"}}>
         <div className="row">
-            <frame id="hf">
-            <table>
-                <tr>
-                   <th>Sl no</th>
-                   <th>Gender</th>
-                   <th>Married</th>
-                   <th>No of dependents</th>
-                   <th>Graduate</th>
-                   <th>Self employed</th>
-                   <th>Applicant income</th>
-                   <th>Coapplicant income</th>
-                   <th>Loan amount</th>
-                   <th>Loan term</th>
-                   <th>Credit history</th>
-                   <th>Approved</th> 
+            <div className="col s6 offset-s3 center-align">
+                <h3><b>Results:</b></h3>
+            </div>
+        </div>
+        <div>
+            <div id="hf" style={{fontSize:"80%"}}>
+            <table id="tab">
+                <tr   className="row" >
+                   <span className="col s1"><th>Gender</th></span>
+                   <span className="col s1 offset-s1"><th >Married</th></span>
+                   <span className="col s1 offset-s2"><th >No of dependents</th></span>
+                   <span className="col s1 offset-s3"><th >Graduate</th></span>
+                   <span className="col s1 offset-s4"><th >Self employed</th></span>
+                   <span className="col s1 offset-s6"><th >Coapplicant income</th></span>
+                   <span className="col s1 offset-s5"><th >Applicant income</th></span>
+                   <span className="col s1 offset-s7"><th >Loan amount</th></span>
+                   <span className="col s1 offset-s8"><th >Loan term</th></span>
+                   <span className="col s1 offset-s9"><th >Credit history</th></span>
+                   <span className="col s1 offset-s10"><th >Property area</th> </span>
+                   <span className="col s1 offset-s11"><th >Approved</th> </span>
                 </tr>
             </table>
-            </frame>
+            </div>
+        </div>
         </div>
         </>
 

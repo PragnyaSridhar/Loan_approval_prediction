@@ -56,7 +56,7 @@ class Carousel extends React.Component {
             //     this.multi(i+1);
             // }
             var t=this;
-            setTimeout(function(){t.multi(i);console.log("hgh");},5000);
+            setTimeout(function(){t.multi(i);console.log("hgh");},2000);
         }
     }
 
