@@ -11,10 +11,11 @@ class Predict extends React.Component {
         M.AutoInit();
     }
     render() { 
+        if(document.cookie!==""){
         return(
         <>
         <GenNav />
-        <body>
+        <div className="bod">
         <div className="row">
             <div className = "col s10 offset-s1">
             <h3>Predict Loan Approval</h3>
@@ -22,11 +23,15 @@ class Predict extends React.Component {
         </div>
         
         <AppForm />
-        </body>
+        </div>
         
         <Footer />
         </>
         )
+        }
+        else{
+            window.location.href="/";
+        }
     }
 }
 

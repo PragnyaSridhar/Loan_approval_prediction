@@ -76,8 +76,9 @@ class BigForm extends Form {
         }]
         return ( 
 			<>
-			<body>
+			
 			<Bname />
+            <div className="bod">
 			<main>
 			<div id = "home" className="section row" >
             <span className="section col s4 offset-s1 hoverable amber lighten-5">
@@ -104,8 +105,9 @@ class BigForm extends Form {
 			</span > 
 			</div>
 			</main>
+            </div>
 			<Footer />
-			</body>
+			
 			</>
         )
     }

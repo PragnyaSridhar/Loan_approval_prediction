@@ -36,7 +36,7 @@ class Carousel extends React.Component {
         }
     }
     multi(i) {
-        var max=7;
+        // var max=7;
         var  xhr= new XMLHttpRequest();
         xhr.onreadystatechange = this.show;
         xhr.responseType="blob";
@@ -51,7 +51,7 @@ class Carousel extends React.Component {
     f1(i){
         if(i<7){
             i=i+1;
-            var x = this.multi;
+            // var x = this.multi;
             // function x(){
             //     this.multi(i+1);
             // }

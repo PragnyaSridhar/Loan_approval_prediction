@@ -16,7 +16,7 @@ class QueryForm extends React.Component {
                 res.push(parseInt(e[i].value));
             }
         }
-        if(res.length!=0){
+        if(res.length!==0){
             return res;
         }
         return "";
@@ -117,19 +117,19 @@ class QueryForm extends React.Component {
                 console.log(resp[0]);}
                 else{
                 console.log("here");
-                var ct = document.getElementById("con");
-                var c=`
+                var ct2 = document.getElementById("con");
+                var c2=`
                 <div className="row">
                 <div classname = "col s6 offset-s3">
                 <h6>Found `;
-                c+="0";
-                c+=` records</h6> 
+                c2+="0";
+                c2+=` records</h6> 
                 </div></div>`;
-                ct.innerHTML=c;
-                var hf = document.getElementById("hf");
-                hf.style.display="block";
-                var ct = document.getElementById("content");
-                ct.innerHTML='';
+                ct2.innerHTML=c2;
+                var hf2 = document.getElementById("hf");
+                hf2.style.display="block";
+                var ct3 = document.getElementById("content");
+                ct3.innerHTML='';
                 }
             } else {
                 // console.log("try again");

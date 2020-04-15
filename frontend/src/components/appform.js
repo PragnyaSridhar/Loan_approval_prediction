@@ -27,7 +27,7 @@ class AppForm extends React.Component {
                 // navigate to dashboard
                 var res = this.responseText;
                 console.log(res);
-                if(res=="0"){
+                if(res==="0"){
                     // alert("NOT APPROVED!");
                     window.location.href="/notapproved";
                 }

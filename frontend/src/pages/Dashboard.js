@@ -3,24 +3,23 @@ import GenNav from '../components/nav.js';
 import Footer from '../components/footer.js';
 import Carousel from '../components/carousel.js';
 
-
-import M from "materialize-css";
-
-
 class Dashboard extends React.Component{
     render() {
+        if(document.cookie!==""){
         return ( 
             <>
             <GenNav />
-            <body>
+            <div className="bod">
             <Carousel />
-            </body>
+            </div>
             <Footer />
-            
-
-
             </>
         )
+        }
+        else{
+            alert("Please login to continue");
+            window.location.href="/";
+        }
     };
 }
 export default Dashboard;

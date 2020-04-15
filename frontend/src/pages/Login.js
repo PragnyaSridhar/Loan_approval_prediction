@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Form from '../components/Form.js'
 
 class Login extends Form {
-	constructor(props) {
-		super(props);
-	}
-	
 	render() {
 		function onSubmit(data) {
 			console.log(data);

@@ -11,10 +11,11 @@ class Query extends React.Component {
         M.AutoInit();
     }
     render() { 
+		if(document.cookie!==""){
         return(
         <>
         <GenNav />
-		<body>
+		<div className="bod">
         <div className="row">
             <div className = "col s10 offset-s1">
             <h3>Query DB</h3>
@@ -22,11 +23,14 @@ class Query extends React.Component {
         </div>
         
         <QueryForm />
-        <div></div>
-		</body>
+		</div>
         <Footer />
         </>
-        )
+		)
+		}
+		else{
+			window.location.href="/";
+		}
     }
 }
 
