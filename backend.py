@@ -313,7 +313,18 @@ def predict():
     data = [[gender,married,dependents,education,selfEmployed,appInc,cappInc,loanAmt,loanTerm,credHist,propAr]]
 
     res = model.predict(data)
+    data[0].append(res[0])
     print("----------------------------------------------\n",res[0],"\n-------------------------------------")
+    obj = {
+        "operation": "insert",
+        "column": "",
+        "insert": "'"+",".join([str(i) for i in data[0]])+"'",
+        "table": "loans"
+    }
+    obj = json.dumps(obj)  # stringified json
+    obj = json.loads(obj)  # content-type:application/json
+    # send request to db api
+    x = requests.post("http://localhost:5000/db/write", json=obj)
     return (str(res[0]),200)
     
 
@@ -480,7 +491,9 @@ def querydb():
     # print(r2)
     mydb.close()
     print(res)
-    return (jsonify(res), 200)
+    response = jsonify(res)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response,200
         
 
 @app.route("/loan/graph",methods=["GET"])
