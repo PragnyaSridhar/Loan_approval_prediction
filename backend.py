@@ -491,9 +491,7 @@ def querydb():
     # print(r2)
     mydb.close()
     print(res)
-    response = jsonify(res)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response,200
+    return (jsonify(res), 200)
         
 
 @app.route("/loan/graph",methods=["GET"])
