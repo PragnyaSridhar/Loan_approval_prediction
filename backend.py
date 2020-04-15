@@ -26,8 +26,8 @@ import pickle
 app = Flask(__name__)
 CORS(app)
 
-# df = fix_df()
-# (X_train,Y_train,X_test,Y_test)=split_df(df)
+df = fix_df()
+(X_train,Y_train,X_test,Y_test)=split_df(df)
 db='loan.db'
 model = SVC(kernel='rbf')
 
@@ -49,65 +49,155 @@ mydb = sqlite3.connect(db)
 
 #create tables
 mydb.execute("CREATE TABLE users (uname VARCHAR(255),pswd VARCHAR(40))")
-mydb.execute("CREATE TABLE loans (Loan_ID VARCHAR(8),Gender VARCHAR(6),Married BOOLEAN,Dependents INTEGER,Education BOOLEAN,Self_Employed BOOLEAN,ApplicantIncome INTEGER, CoapplicantIncome INTEGER,LoanAmount INTEGER,Loan_Amount_Term INTEGER,Credit_History BOOLEAN,Property_Area VARCHAR(20),Loan_Status BOOLEAN)")
+mydb.execute("CREATE TABLE loans (Gender VARCHAR(6),Married BOOLEAN,Dependents INTEGER,Education BOOLEAN,Self_Employed BOOLEAN,ApplicantIncome INTEGER, CoapplicantIncome INTEGER,LoanAmount INTEGER,Loan_Amount_Term INTEGER,Credit_History BOOLEAN,Property_Area VARCHAR(20),Loan_Status BOOLEAN)")
 mydb.commit()
 
 #populate table with initial dataset
-# for index,row in X_train.iterrows():
-#     query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
-#         'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
-#                 'Property_Area') VALUES ("
+i=0
+y = Y_train.values
+for index,row in X_train.iterrows():
+    query = "INSERT INTO loans ('Gender', 'Married', 'Dependents', 'Education', 'Self_Employed',\
+        'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount','Loan_Amount_Term', 'Credit_History',\
+                'Property_Area','Loan_Status') VALUES ("
     
-#     for i in range(len(row)):
-#         if(i!=0):
-#             query+=','
-#         query+= str(row[i])
-#     query+=")"
-
-#     mydb.execute(query)
-#     mydb.commit()
+    for i in range(len(row)):
+        if(i!=0):
+            query+=','
+        query+= str(row[i])
+        # print(row)
+    query+=","+str(y[i])
+    i+=1
+    query+=")"
+    mydb.execute(query)
+    mydb.commit()
 
 # for val in Y_train.values:
 #     query = "INSERT INTO loans ('Loan_Status') VALUES ("+str(val)+")"
 #     mydb.execute(query)
 #     mydb.commit()
 
-# f=open("test.txt","w")
-# ls=Y_test.values
-# ind=0
+# qu = "SELECT * FROM loans;"
+# s = mydb.execute(qu)
+# for row in s:
+#     print(row)
+# qu = "SELECT * FROM loans;"
 
-# for index,row in X_test.iterrows():
-#     query=''
-#     for i in range(len(row)):
-#         if(i!=0):
-#             query+=','
-#         query+= str(row[i])
-#     query+=','+str(ls[ind])+"\n"
-#     ind+=1
-#     f.write(query)
-# f.close()
+# print("****************************************************************************")
+# print(qu)
+
+# s=mydb.execute(qu)
+    
+# res = []
+# for row in s:
+#     res.append(row)
+# mydb.close()
+# print(res)
+
+
+f=open("test.txt","w")
+ls=Y_test.values
+ind=0
+
+for index,row in X_test.iterrows():
+    query=''
+    for i in range(len(row)):
+        if(i!=0):
+            query+=','
+        query+= str(row[i])
+    query+=','+str(ls[ind])+"\n"
+    ind+=1
+    f.write(query)
+f.close()
     
     
 mydb.close()
 # train model
-# model.fit(X_train, Y_train)
-with open("model.pickle", "r+b") as f:
-    model = pickle.load(f)
+model.fit(X_train, Y_train)
+# with open("model.pickle", "r+b") as f:
+#     model = pickle.load(f)
 print("training done")
 
-# for i in range(4,8):
-#     fn=str(i)+".png"
-#     try:
-#         os.system("rm "+fn)
-#     except:
-#         pass
-#     plot_bar(X_train,Y_train,i,0.2,colList)
-# print("graphs done")
+for i in range(4,8):
+    fn=str(i)+".png"
+    try:
+        os.system("rm "+fn)
+    except:
+        pass
+    plot_bar(X_train,Y_train,i,0.2,colList)
+print("graphs done")
 
 # plot_bar(X_train,Y_train,1,0.2,colList)
 # plot_bar(X_train,Y_train,2,0.2,colList)
 # plot_bar(X_train,Y_train,3,0.2,colList)
 # print("graphs done")
+
+def make_str(ar):
+    res="("
+    for a in range(len(ar)):
+        if(a!=0):
+            res=res+","
+        res+=str(ar[a])
+    res+=")"
+    return res
+
+def get_data(row):
+    r=[]
+    # gender
+    if(row[0]=="0.0"):
+        r.append('Male')
+    else:
+        r.append('Female')
+
+    # Married
+    if(row[1]==0):
+        r.append('No')
+    else:
+        r.append('Yes')
+
+    # Number of dependents
+    if(row[2] in (0,1,2)):
+        r.append(str(row[2]))
+    else:
+        r.append("3+")
+    
+    # Education
+    if(row[3]==0):
+        r.append('No')
+    else:
+        r.append("Yes")
+
+    # self employed
+    if(row[4]==0):
+        r.append('No')
+    else:
+        r.append("Yes")
+
+    r.append(row[5])
+    r.append(row[6])
+    r.append(row[7])
+    r.append(row[8])
+
+    # credit history
+    if(row[9]==0):
+        r.append('No')
+    else:
+        r.append("Yes")
+
+    # property area
+    if(row[10]==1):
+        r.append('Urban')
+    elif(row[10]==2):
+        r.append("Rural")
+    else:
+        r.append('Semi-urban')
+
+    # Loan approved
+    if(row[11]==0):
+        r.append('No')
+    else:
+        r.append("Yes")
+
+    return r
 
 @app.route("/user/add",methods=["POST"])
 def addUser():
@@ -264,78 +354,112 @@ def querydb():
     where=''
     flag=0
     if(gender!=''):
-        where+="Gender=" + gender
+        gender = make_str(gender)
+        where+="Gender IN "+gender
         flag=1
-    if(education!=''):
+    if(married!=''):
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Married='+married
+        where+=' Married IN '+married
     if(len(dependents)!=0):
+        dependents = make_str(dependents)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Dependents in '+dependents
+        where+=' Dependents IN '+dependents
     if(education!=''):
+        education = make_str(education)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Education='+education
+        where+=' Education IN'+education
     if(selfEmployed!=''):
+        selfEmployed = make_str(selfEmployed)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Self_Employed='+selfEmployed
+        where+=' Self_Employed IN '+selfEmployed
     if(len(appInc)!=0):
         if(flag==1):
             where+=' AND'
         flag=1
-        where+='(ApplicantIncome BETWEEN '+appInc[0]+'AND '+appInc[1]+')'
+        if(appInc[0]==None):
+            appInc[0]=0
+        if(appInc[1]==None):
+            appInc[1]=10000
+        where+='(ApplicantIncome BETWEEN '+str(appInc[0])+' AND '+str(appInc[1])+')'
     if(len(cappInc)!=0):
         if(flag==1):
             where+=' AND'
         flag=1
-        where+='(CoapplicantIncome BETWEEN '+cappInc[0]+'AND '+cappInc[1]+')'
+        if(cappInc[0]==None):
+            cappInc[0]=0
+        if(cappInc[1]==None):
+            cappInc[1]=10000
+        where+='(CoapplicantIncome BETWEEN '+str(cappInc[0])+' AND '+str(cappInc[1])+')'
     if(len(loanAmt)!=0):
         if(flag==1):
             where+=' AND'
         flag=1
-        where+='(LoanAmount BETWEEN '+loanAmt[0]+'AND '+loanAmt[1]+')'
+        if(loanAmt[0]==None):
+            loanAmt[0]=0
+        if(loanAmt[1]==None):
+            loanAmt[1]=10000
+        where+='(LoanAmount BETWEEN '+str(loanAmt[0])+' AND '+str(loanAmt[1])+')'
     if(len(loanTerm)!=0):
         if(flag==1):
             where+=' AND'
         flag=1
-        where+='(Loan_Amount_Term BETWEEN '+loanTerm[0]+'AND '+loanTerm[1]+')'
+        if(loanTerm[0]==None):
+            loanTerm[0]=0
+        if(loanTerm[1]==None):
+            loanTerm[1]=1000
+        where+='(Loan_Amount_Term BETWEEN '+str(loanTerm[0])+' AND '+str(loanTerm[1])+')'
     if(credHist!=''):
+        credHist = make_str(credHist)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Credit_History='+credHist
+        where+=' Credit_History IN '+credHist
     if(propAr!=''):
+        propAr = make_str(propAr)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Property_Area='+propAr
+        where+=' Property_Area IN '+propAr
     if(status!=''):
+        status = make_str(status)
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Loan_Status='+status
+        where+=' Loan_Status IN '+status
 
     obj = {
         "columns": "*",
         "where": where,
         "table": "loans"
     }
-    obj = json.dumps(obj)  # stringified json
-    obj = json.loads(obj)  # content-type:application/json
-    # send request to db api
-    x = requests.post("http://localhost:5000/db/read", json=obj)
-    print(x.text)
-    users = ast.literal_eval(x.text)
 
-    return(jsonify(users),200)
-    
+    mydb = sqlite3.connect(db)
+    qu = "SELECT * FROM loans WHERE ("+ where +");"
+    # qu = "SELECT * FROM loans;"
+
+    # print("****************************************************************************")
+    print(qu)
+
+    s=mydb.execute(qu)
+        
+    res = ''
+    for row in s:
+        row = get_data(row)
+        r = str(row)
+        r = r[1:-1:1]
+        res+=r+";"
+    mydb.close()
+    print(res)
+    return (jsonify(res), 200)
+        
 
 @app.route("/loan/graph",methods=["GET"])
 def graph():

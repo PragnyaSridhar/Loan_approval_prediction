@@ -10,32 +10,36 @@ class QueryForm extends React.Component {
     get_val(name){
         var e=document.getElementsByName(name);
         var i;
+        var res=[];
         for(i=0;i<e.length;i++){
             if(e[i].checked=== true){
-                return(e[i].value);
+                res.push(parseInt(e[i].value));
             }
         }
+        if(res.length!=0){
+            return res;
+        }
+        return "";
     }
 
     get_num(name){
         var e=document.getElementsByName(name);
-        return (e[0].value);
+        return (parseInt(e[0].value));
     }
 
     show(){
             if (this.status === 200 && this.readyState === 4) {
-                // navigate to dashboard
-                var res = this.responseText;
-                console.log(res);
-                if(res=="0"){
-                    // alert("NOT APPROVED!");
-                    window.location.href="/notapproved";
-                }
-                else{
-                    // alert("APPROVED!");
-                    window.location.href="/approved";
-                }
-                //window.location.href = "/dashboard";
+                var resp = this.responseText;
+                resp = resp.split(";");
+                console.log(resp.length);
+                var hf = document.getElementById("hf");
+                // var table = hf.createElement("table");
+                // do hf.show
+                // var i;
+                // for(i=0;i<resp.length;i++){
+                    
+                // }
+                console.log(resp[0])
             } else {
                 // console.log("try again");
                 // window.location.href = "/";
@@ -49,33 +53,39 @@ class QueryForm extends React.Component {
         var dependents = this.get_val("dependents");
         var education = this.get_val("education");
         var selfemployed = this.get_val("self employed");
-        var appinc = this.get_num("applicant income");
-        var cappinc = this.get_num("coapplicant income");
-        var lnamt = this.get_num("loan amount");
-        var lnterm = this.get_num("loan term");
+        var appinclb = this.get_num("applicant income lb");
+        var appincub = this.get_num("applicant income ub");
+        var cappinclb = this.get_num("coapplicant income lb");
+        var cappincub = this.get_num("coapplicant income ub");
+        var lnamtlb = this.get_num("loan amount lb");
+        var lnamtub = this.get_num("loan amount ub");
+        var lntermlb = this.get_num("loan term lb");
+        var lntermub = this.get_num("loan term ub");
         var credhist = this.get_val("credit history");
         var propAr = this.get_val("property area");
+        var loanst = this.get_val("loan_stat");
+
+        var appinc = [appinclb,appincub];
+        var cappinc = [cappinclb,cappincub];
+        var lnamt = [lnamtlb,lnamtub];
+        var lnterm = [lntermlb,lntermub];
 
         var data={"gender":gender,"married":married,"dependents":dependents,"education":education,
     "self employed":selfemployed,"applicant income": appinc, "coapplicant income":cappinc,"loan amount":lnamt,
-"loan term":lnterm,"credit history":credhist,"property area":propAr};
+"loan term":lnterm,"credit history":credhist,"property area":propAr,"approval":loanst};
         
         console.log(JSON.stringify(data));
 
-        if(appinc==="" || cappinc==="" || lnamt==="" || lnterm===""){
-            alert("Please fill all the details");
-        }
-        else{
-            var  xhr= new XMLHttpRequest();
-            xhr.onreadystatechange = this.show;
-            xhr.open("POST", "http://localhost:5000/loan/predict");
-            xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
-            xhr.send(JSON.stringify(data));
-        }
+        var  xhr= new XMLHttpRequest();
+        xhr.onreadystatechange = this.show;
+        xhr.open("POST", "http://localhost:5000/loan/query");
+        xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(data));
     }
     
     render() { 
         return(
+        <>
         <div className="row">
         <form className=" col s10 offset-s1 amber lighten-4">
             <h5><b>Please enter your details:</b></h5>
@@ -87,7 +97,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="gender" type="checkbox" className="with-gap" value="0"  defaultChecked />
+                            <label><input name="gender" type="checkbox" className="with-gap" value="0"   />
                             <span>Male</span></label>
                         </td>
                         <td>
@@ -107,7 +117,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="married" type="checkbox" className="with-gap" value="1"  defaultChecked />
+                            <label><input name="married" type="checkbox" className="with-gap" value="1"   />
                             <span>Yes</span></label>
                         </td>
                         <td>
@@ -127,7 +137,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="dependents" type="checkbox" className="with-gap" value="0"  defaultChecked />
+                            <label><input name="dependents" type="checkbox" className="with-gap" value="0"   />
                             <span>0</span></label>
                         </td>
                         <td>
@@ -155,7 +165,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="education" type="checkbox" className="with-gap" value="1"  defaultChecked />
+                            <label><input name="education" type="checkbox" className="with-gap" value="1"   />
                             <span>Graduate</span></label>
                         </td>
                         <td>
@@ -175,7 +185,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="self employed" type="checkbox" className="with-gap" value="1"  defaultChecked />
+                            <label><input name="self employed" type="checkbox" className="with-gap" value="1"   />
                             <span>Yes</span></label>
                         </td>
                         <td>
@@ -191,16 +201,16 @@ class QueryForm extends React.Component {
                 <li>
                 <div className="row">
                     <p className="col s3">Applicant income($) :</p>
-                    <input className="col s4" type="number" placeholder="Lower bound" name="applicant income lb"  required/>
-                    <input className="col s4" type="number" placeholder="Upper bound" name="applicant income ub"  required/>
+                    <input className="col s4" type="number" placeholder="Lower bound" name="applicant income lb"  />
+                    <input className="col s4" type="number" placeholder="Upper bound" name="applicant income ub"  />
                 </div>
                 </li>
 
                 <li>
                 <div className="row">
                     <p className="col s3">Co-applicant income($) :</p>
-                    <input className="col s4" type="number" placeholder="Lower Bound" name="coapplicant income lb"  required/>
-                    <input className="col s4" type="number" placeholder="Upper Bound" name="coapplicant income ub"  required/>
+                    <input className="col s4" type="number" placeholder="Lower Bound" name="coapplicant income lb"  />
+                    <input className="col s4" type="number" placeholder="Upper Bound" name="coapplicant income ub"  />
 
                 </div>
                 </li>
@@ -208,8 +218,8 @@ class QueryForm extends React.Component {
                 <li>
                 <div className="row">
                     <p className="col s3">Loan amount($):</p>
-                    <input className="col s4" type="number" placeholder="Lower Bound" name="loan amount lb"  required/>
-                    <input className="col s4" type="number" placeholder="Upper Bound" name="loan amount ub"  required/>
+                    <input className="col s4" type="number" placeholder="Lower Bound" name="loan amount lb"  />
+                    <input className="col s4" type="number" placeholder="Upper Bound" name="loan amount ub"  />
 
                 </div>
                 </li>
@@ -217,7 +227,8 @@ class QueryForm extends React.Component {
                 <li>
                 <div className="row">
                     <p className="col s3">Loan term (months):</p>
-                    <input className="col s4" type="number" placeholder="Loan term" name="loan term"  required/>
+                    <input className="col s4" type="number" placeholder="Lower bound" name="loan term lb"  />
+                    <input className="col s4" type="number" placeholder="Upper bound" name="loan term ub"  />
                 </div>
                 </li>
 
@@ -228,7 +239,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="credit history" type="checkbox" className="with-gap" value="1"  defaultChecked />
+                            <label><input name="credit history" type="checkbox" className="with-gap" value="1"   />
                             <span>Yes</span></label>
                         </td>
                         <td>
@@ -248,7 +259,7 @@ class QueryForm extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <label><input name="property area" type="checkbox" className="with-gap" value="1"  defaultChecked />
+                            <label><input name="property area" type="checkbox" className="with-gap" value="1"   />
                             <span>Urban</span></label>
                         </td>
                         <td>
@@ -264,11 +275,53 @@ class QueryForm extends React.Component {
                 </table>
                 </div>
                 </li>
+
+                <li>
+                <div className="row">
+                    <p className="col s3">Loan Approved:</p>
+                <table className="col s4">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label><input name="loan_stat" type="checkbox" className="with-gap" value="1"   />
+                            <span>Yes</span></label>
+                        </td>
+                        <td>
+                            <label><input name="loan_stat" type="checkbox" className="with-gap" value="0" />
+                            <span>No</span></label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                </li>
             </ul>
             <button type="submit" className="hoverable waves-effect waves-light btn brown darken-4" onClick={this.onSubmit}>Submit</button>
             <br></br>
         </form>
         </div>
+        
+        <div className="row">
+            <frame id="hf">
+            <table>
+                <tr>
+                   <th>Sl no</th>
+                   <th>Gender</th>
+                   <th>Married</th>
+                   <th>No of dependents</th>
+                   <th>Graduate</th>
+                   <th>Self employed</th>
+                   <th>Applicant income</th>
+                   <th>Coapplicant income</th>
+                   <th>Loan amount</th>
+                   <th>Loan term</th>
+                   <th>Credit history</th>
+                   <th>Approved</th> 
+                </tr>
+            </table>
+            </frame>
+        </div>
+        </>
 
         )
     }
