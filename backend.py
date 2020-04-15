@@ -184,9 +184,9 @@ def get_data(row):
         r.append("Yes")
 
     # property area
-    if(row[10]==1):
+    if(row[10]=="1.0"):
         r.append('Urban')
-    elif(row[10]==2):
+    elif(row[10]=="2.0"):
         r.append("Rural")
     else:
         r.append('Semi-urban')
@@ -433,11 +433,21 @@ def querydb():
         flag=1
         where+=' Credit_History IN '+credHist
     if(propAr!=''):
-        propAr = make_str(propAr)
+        prop="("
+        for g in range(len(propAr)):
+            if(g!=0):
+                prop+=","
+            if(propAr[g]==1):
+                prop+="1.0"
+            elif(propAr[g]==2):
+                prop+="2.0"
+            else:
+                prop+="3.0"
+        prop+=")"
         if(flag==1):
             where+=' AND'
         flag=1
-        where+=' Property_Area IN '+propAr
+        where+=' Property_Area IN '+prop
     if(status!=''):
         status = make_str(status)
         if(flag==1):
@@ -462,10 +472,12 @@ def querydb():
         
     res = ''
     for row in s:
+        print(row)
         row = get_data(row)
         r = str(row)
         r = r[1:-1:1]
         res+=r+";"
+    # print(r2)
     mydb.close()
     print(res)
     return (jsonify(res), 200)

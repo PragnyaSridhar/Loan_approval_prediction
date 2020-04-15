@@ -17,7 +17,7 @@ class BigForm extends Form {
                 // navigate to dashboard
                 console.log("logged in");
 				window.location.href = "/dashboard";
-				alert("hi"+this.responseText);
+				// alert("hi"+this.responseText);
 				document.cookie ="username="+this.responseText+"; expires=Thu, 01 Jan 2970 00:00:00 UTC";
             } else {
                 console.log("try again");

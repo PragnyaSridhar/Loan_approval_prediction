@@ -45,28 +45,32 @@ class QueryForm extends React.Component {
                 var resp = this.responseText;
                 console.log(resp.length);
                 if(resp.length!==3){
+                resp = resp.substring(1,resp.length-2);
                 resp = resp.split(";");
                 var l = resp.length;
                 console.log(l);
                 var hf = document.getElementById("hf");
                 hf.style.display="block";
                 var d = document.getElementById("content");
+                d.style.display="block";
                 d.innerHTML = `
-                <table id="tab">
-                    <tr   className="row" >
-                       <span className="col s1"><th>Gender</th></span>
-                       <span className="col s1 offset-s1"><th >Married</th></span>
-                       <span className="col s1 offset-s2"><th >No of dependents</th></span>
-                       <span className="col s1 offset-s3"><th >Graduate</th></span>
-                       <span className="col s1 offset-s4"><th >Self employed</th></span>
-                       <span className="col s1 offset-s6"><th >Coapplicant income</th></span>
-                       <span className="col s1 offset-s5"><th >Applicant income</th></span>
-                       <span className="col s1 offset-s7"><th >Loan amount</th></span>
-                       <span className="col s1 offset-s8"><th >Loan term</th></span>
-                       <span className="col s1 offset-s9"><th >Credit history</th></span>
-                       <span className="col s1 offset-s10"><th >Property area</th> </span>
-                       <span className="col s1 offset-s11"><th >Approved</th> </span>
+                <table id="tab" className="centered highlight responsive-table brown lighten-4">
+                <tr   className="row" >
+                       <span className="col s1 "><th><center>Sl no</center></th></span>
+                       <span className="col s1 offset-s1"><th><center>Gender</center></th></span>
+                       <span className="col s1 offset-s2 "><th ><center>Married</center></th></span>
+                       <span className="col s1 offset-s3 "><th ><center>No of dependents</center></th></span>
+                       <span className="col s1 offset-s4 "><th ><center>Graduate</center></th></span>
+                       <span className="col s1 offset-s5 "><th ><center>Self employed</center></th></span>
+                       <span className="col s1 offset-s6 "><th ><center>Coapplicant income</center></th></span>
+                       <span className="col s1 offset-s7 "><th ><center>Applicant income</center></th></span>
+                       <span className="col s1 offset-s8 "><th ><center>Loan amount</center></th></span>
+                       <span className="col s1 offset-s9 "><th ><center>Loan term</center></th></span>
+                       <span className="col s1 offset-s10 "><th ><center>Credit history</center></th></span>
+                       <span className="col s1 offset-s11 "><th ><center>Property area</center></th> </span>
+                       <span className="col s1 offset-s12 "><th ><center>Approved</center></th> </span>
                     </tr>
+                <div id="rows"></div>
                 </table>
                 ` ;
                 // t.printrows(resp,0);
@@ -78,26 +82,27 @@ class QueryForm extends React.Component {
                 <div className="row">
                 <div classname = "col s6 offset-s3">
                 <h6>Found `;
-                c+=l;
+                c+=l-1;
                 c+=` records</h6> 
                 </div></div>`;
                 ct.innerHTML=c;
                 function printrows(resp,num){
                     var tab = document.getElementById("tab");
                     var i;
-                    for(i=num;i<resp.length;i++){
+                    for(i=num;i<resp.length-1;i++){
                         var res="<tr>";
                         var r = resp[i].split(",");
                         var j;
                         var o=1;
+                        res+="<span className='col s1 '><td>"+(i+1)+"</td></span>";
                         for(j=0;j<r.length;j++){
-                            if(j!=0){
-                                res+="<span className='col s1 offset-s"+toString(o)+"'><th>"+r[j]+"</th></span>";
+                            if(1){
+                                res+="<span className='col s1 offset-s"+toString(o)+" '><td>"+r[j]+"</td></span>";
                             }
-                            else{
-                                res+="<span className='col s1'"+toString(o)+"><th>"+r[j]+"</th></span>";
-                                // console.log("0000");
-                            }
+                            // else{
+                            //     res+="<span className='col s1 '"+toString(o)+"><td>"+r[j]+"</td></span>";
+                            //     // console.log("0000");
+                            // }
                             o++;
                         }
                         res+="</tr>";
@@ -122,6 +127,8 @@ class QueryForm extends React.Component {
                 ct.innerHTML=c;
                 var hf = document.getElementById("hf");
                 hf.style.display="block";
+                var ct = document.getElementById("content");
+                ct.innerHTML='';
                 }
             } else {
                 // console.log("try again");
@@ -387,15 +394,17 @@ class QueryForm extends React.Component {
         
         <div id="hf" style={{display:"none"}}>
         <div className="row">
-            <div className="col s6 offset-s3 center-align">
+            <div className="col s6 offset-s3 ">
                 <h3><b>Results:</b></h3>
                 <div id="con"></div>
             </div>
         </div>
-        <div id="content">
-            
+        {/* <div className="row"> */}
+        <div id="content" style={{display:"none"}}>
+        
         </div>
         </div>
+        {/* </div> */}
         </>
 
         )

@@ -23,6 +23,11 @@ main {
     min-height: 100%;
 }
 
+table {
+    font-size: small;
+    align-content: center;
+}
+
 .Form {
     width: 50%;
     margin-left: 25%;
