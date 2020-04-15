@@ -68,7 +68,7 @@ class QueryForm extends React.Component {
         else{
             var  xhr= new XMLHttpRequest();
             xhr.onreadystatechange = this.show;
-            xhr.open("POST", "http://localhost:5000/loan/predict");
+            xhr.open("POST", "http://localhost:5000/loan/query");
             xhr.setRequestHeader("Content-Type",'application/json;charset=UTF-8');
             xhr.send(JSON.stringify(data));
         }
