@@ -88,4 +88,4 @@ def test_writedb2():
 
 def test_querygraph():
     response = requests.get("http://localhost:5000/loan/graph")
-    assert()
+    assert(response.headers['Content-Type'] == "image/png")
